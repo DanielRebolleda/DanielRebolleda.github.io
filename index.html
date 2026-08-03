@@ -111,8 +111,9 @@ body.editing .about p:empty{display:block;min-height:1.4em;opacity:.4;border:1px
 .xp-meta .d{color:var(--ink)}
 .xp-intro{color:#bdbdbd;font-size:17.5px;line-height:1.5;margin-bottom:14px;max-width:680px}
 .xp-item ul{list-style:none;display:grid;gap:8px}
-.xp-photos{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-.xp-photos img{width:calc(50% - 5px);min-width:180px;flex:1 1 220px;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line);filter:grayscale(.15) contrast(1.03)}
+.xp-photos{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:flex-start}
+.xp-photos img{height:280px;width:auto;max-width:100%;object-fit:contain;border:1px solid var(--line);filter:grayscale(.15) contrast(1.03)}
+@media(max-width:560px){.xp-photos img{height:auto;width:100%}}
 .xp-item li{position:relative;padding-left:18px;color:#c9c9c9}
 .xp-item li::before{content:"–";position:absolute;left:0;color:var(--faint)}
 .skills{display:grid;gap:22px}
@@ -149,8 +150,15 @@ body.editing .edu-note:empty{display:block;min-height:1.4em;opacity:.4;margin-to
 .plink{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);
   border:1px solid var(--line2);padding:8px 12px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start}
 .plink:hover{border-color:var(--ink)}
-.pf-photos{display:flex;gap:8px;margin-top:4px}
-.pf-photos img{width:50%;aspect-ratio:4/3;object-fit:contain;background:var(--panel);border:1px solid var(--line)}
+.pf-photos{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.pf-photos img{width:calc(50% - 4px);min-width:140px;flex:1 1 160px;aspect-ratio:4/3;object-fit:contain;background:var(--panel);border:1px solid var(--line)}
+.pcard.pentry{cursor:pointer}
+.pbottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pchevron{font-family:var(--mono);color:var(--muted);transition:transform .2s ease;flex:none}
+.pcard.open .pchevron{transform:rotate(180deg)}
+.pdetail{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);flex-direction:column;gap:12px}
+.pcard.open .pdetail{display:flex}
+.pabstract{color:#c9c9c9;font-size:15px;line-height:1.6}
 
 /* CONTACT */
 .contact{margin:46px 0 10px;padding:26px 0 0;border-top:1px solid var(--line)}
@@ -306,8 +314,8 @@ const LOGOS={
  certs:["img/logos/tudelft.svg","img/logos/race.svg","img/logos/michelin.svg","img/logos/cambridge.svg"]
 };
 const XPPHOTOS=[
- [{src:"img/xp/avl-1.jpg",pos:"center 78%"},{src:"img/xp/avl-2.jpg",pos:"center 88%"}],
- [{src:"img/xp/etta-1.jpg",pos:"center"},{src:"img/xp/etta-2.jpg",pos:"center 40%"}]
+ ["img/xp/avl-1.jpg","img/xp/avl-2.jpg"],
+ ["img/xp/etta-1.jpg","img/xp/etta-2.jpg"]
 ];
 const PFPHOTOS=[["img/portfolio/tfg-shap.jpg","img/portfolio/tfg-lstm.jpg"]];
 
@@ -447,9 +455,10 @@ const C=/*C_START*/{
   "pfSub": "A selection of engineering work. More detail coming soon.",
   "port": [
    {
-    "name": "SOC prediction · XAI",
+    "name": "State-of-Charge Prediction for Plug-in Hybrid Vehicle Batteries Using Explainable AI (XAI)",
     "tag": "Machine Learning",
     "desc": "State-of-charge prediction for plug-in hybrid batteries using explainable AI — neural networks with interpretability for safety-relevant use. Graded 9.7/10.",
+    "abstract": "This work aims to provide a starting point for the prediction and explainability of the SOC (State of Charge) of plug-in hybrid vehicle batteries, leveraging explainable artificial intelligence (XAI) methods. The work revolves around three main objectives: predicting the future SOC with a reasonable lead time based on its immediately preceding states using an LSTM (Long Short-Term Memory) model; building an MLP (Multilayer Perceptron) model that analyses the influence of a trip's aggregated features on the resulting SOC, identifying through SHAP (SHapley Additive exPlanations) the weight of each variable; and developing a progressive prediction system for the final SOC of a trip, resembling a real-world scenario as closely as possible, starting from the variables available for a GPS-set route with periodic updates as the trip progresses. All models use data from the Vehicle Energy Dataset (VED) from the University of Michigan, a public dataset of OBD-II telemetry recorded over more than a year of driving in Ann Arbor (Michigan, USA). Keywords: PHEV, SOC, LSTM, MLP, SHAP, XAI.",
     "st": "Thesis",
     "file": "img/TFG_Daniel_Rebolleda.pdf"
    },
@@ -597,9 +606,10 @@ const C=/*C_START*/{
   "pfSub": "Una selección de trabajo de ingeniería. Más detalle próximamente.",
   "port": [
    {
-    "name": "Predicción SOC · IA XAI",
+    "name": "Predicción del estado de carga de la batería de coches híbrido-enchufables mediante técnicas de inteligencia artificial explicable (XAI)",
     "tag": "Machine Learning",
     "desc": "Predicción del estado de carga de baterías híbridas enchufables con IA explicable — redes neuronales con interpretabilidad para sistemas críticos. Nota 9,7/10.",
+    "abstract": "Este trabajo tiene como objetivo brindar un punto de partida a la predicción y explicabilidad del SOC (State of Charge) de la batería de los vehículos híbridos enchufables, por medio de técnicas de inteligencia artificial explicable (XAI). El trabajo se centra en tres objetivos: predecir el estado futuro del SOC con una antelación razonable a partir de sus estados inmediatamente anteriores mediante un modelo LSTM (Long Short-Term Memory); construir un modelo MLP (Multilayer Perceptron) que analice la influencia de las características agregadas de un trayecto sobre el SOC, identificando mediante SHAP (SHapley Additive exPlanations) el peso de cada variable; y desarrollar un sistema de predicción progresiva del SOC final de un trayecto, lo más parecido posible a un caso real, partiendo de las variables disponibles para una ruta prefijada por GPS y con actualizaciones periódicas conforme avanza el trayecto. Todos los modelos utilizan datos del Vehicle Energy Dataset (VED) de la Universidad de Michigan, una base de datos pública de telemetría OBD-II registrada en trayectos durante más de un año en Ann Arbor (Míchigan, EE. UU.). Palabras clave: PHEV, SOC, LSTM, MLP, SHAP, XAI.",
     "st": "TFG",
     "file": "img/TFG_Daniel_Rebolleda.pdf"
    },
@@ -747,9 +757,10 @@ const C=/*C_START*/{
   "pfSub": "Une sélection de travaux d'ingénierie. Plus de détails à venir.",
   "port": [
    {
-    "name": "Prédiction SOC · IA XAI",
+    "name": "Prédiction de l'état de charge des batteries de véhicules hybrides rechargeables par intelligence artificielle explicable (XAI)",
     "tag": "Machine Learning",
     "desc": "Prédiction de l'état de charge de batteries hybrides rechargeables par IA explicable — réseaux de neurones interprétables pour usage critique. Note 9,7/10.",
+    "abstract": "Ce travail vise à poser les bases de la prédiction et de l'explicabilité du SOC (State of Charge) des batteries de véhicules hybrides rechargeables, à l'aide de techniques d'intelligence artificielle explicable (XAI). Il s'articule autour de trois objectifs : prédire l'état futur du SOC avec un délai raisonnable à partir de ses états immédiatement antérieurs, au moyen d'un modèle LSTM (Long Short-Term Memory) ; construire un modèle MLP (Multilayer Perceptron) analysant l'influence des caractéristiques agrégées d'un trajet sur le SOC, en identifiant via SHAP (SHapley Additive exPlanations) le poids de chaque variable ; et développer un système de prédiction progressive du SOC final d'un trajet, au plus près d'un cas réel, à partir des variables disponibles pour un itinéraire fixé par GPS et avec des mises à jour périodiques au fil du trajet. Tous les modèles utilisent les données du Vehicle Energy Dataset (VED) de l'Université du Michigan, une base de données publique de télémétrie OBD-II enregistrée sur des trajets pendant plus d'un an à Ann Arbor (Michigan, États-Unis). Mots-clés : PHEV, SOC, LSTM, MLP, SHAP, XAI.",
     "st": "Mémoire",
     "file": "img/TFG_Daniel_Rebolleda.pdf"
    },
@@ -897,9 +908,10 @@ const C=/*C_START*/{
   "pfSub": "Una selezione di lavoro ingegneristico. Maggiori dettagli in arrivo.",
   "port": [
    {
-    "name": "Previsione SOC · IA XAI",
+    "name": "Previsione dello stato di carica delle batterie dei veicoli ibridi plug-in mediante intelligenza artificiale spiegabile (XAI)",
     "tag": "Machine Learning",
     "desc": "Previsione dello stato di carica di batterie ibride plug-in con IA spiegabile — reti neurali interpretabili per usi critici. Voto 9,7/10.",
+    "abstract": "Questo lavoro mira a fornire un punto di partenza per la previsione e la spiegabilità del SOC (State of Charge) delle batterie dei veicoli ibridi plug-in, tramite tecniche di intelligenza artificiale spiegabile (XAI). Il lavoro si articola in tre obiettivi: prevedere lo stato futuro del SOC con un anticipo ragionevole a partire dagli stati immediatamente precedenti, sviluppando un modello LSTM (Long Short-Term Memory); costruire un modello MLP (Multilayer Perceptron) che analizza l'influenza delle caratteristiche aggregate di un percorso sul SOC, identificando tramite SHAP (SHapley Additive exPlanations) il peso di ciascuna variabile; e sviluppare un sistema di previsione progressiva del SOC finale di un percorso, il più possibile simile a un caso reale, partendo dalle variabili disponibili per un percorso fissato dal GPS e con aggiornamenti periodici man mano che il percorso procede. Tutti i modelli utilizzano dati del Vehicle Energy Dataset (VED) dell'Università del Michigan, un dataset pubblico di telemetria OBD-II registrata durante percorsi veicolari per oltre un anno ad Ann Arbor (Michigan, USA). Parole chiave: PHEV, SOC, LSTM, MLP, SHAP, XAI.",
     "st": "Tesi",
     "file": "img/TFG_Daniel_Rebolleda.pdf"
    },
@@ -1047,9 +1059,10 @@ const C=/*C_START*/{
   "pfSub": "Eine Auswahl an Ingenieurarbeit. Weitere Details folgen.",
   "port": [
    {
-    "name": "SOC-Prognose · XAI",
+    "name": "Vorhersage des Ladezustands von Plug-in-Hybridfahrzeug-Batterien mittels erklärbarer künstlicher Intelligenz (XAI)",
     "tag": "Machine Learning",
     "desc": "Ladezustandsprognose von Plug-in-Hybrid-Batterien mit erklärbarer KI — interpretierbare neuronale Netze für sicherheitsrelevante Anwendungen. Note 9,7/10.",
+    "abstract": "Diese Arbeit soll einen Ausgangspunkt für die Vorhersage und Erklärbarkeit des SOC (State of Charge) von Plug-in-Hybridfahrzeugbatterien mittels erklärbarer künstlicher Intelligenz (XAI) liefern. Die Arbeit gliedert sich in drei Hauptziele: die Vorhersage des zukünftigen SOC mit angemessenem Vorlauf anhand der unmittelbar vorangegangenen Zustände mittels eines LSTM-Modells (Long Short-Term Memory); den Aufbau eines MLP-Modells (Multilayer Perceptron), das den Einfluss aggregierter Fahrtmerkmale auf den SOC analysiert und mittels SHAP (SHapley Additive exPlanations) das Gewicht jeder Variable bestimmt; sowie ein System zur schrittweisen Vorhersage des End-SOC einer Fahrt, das einem realen Szenario möglichst nahekommt, ausgehend von den für eine GPS-vorgegebene Route verfügbaren Variablen mit periodischen Aktualisierungen im Fahrtverlauf. Alle Modelle nutzen Daten aus dem Vehicle Energy Dataset (VED) der University of Michigan, einem öffentlichen Datensatz mit OBD-II-Telemetrie von Fahrten über mehr als ein Jahr in Ann Arbor (Michigan, USA). Schlüsselwörter: PHEV, SOC, LSTM, MLP, SHAP, XAI.",
     "st": "Abschlussarbeit",
     "file": "img/TFG_Daniel_Rebolleda.pdf"
    },
@@ -1112,7 +1125,7 @@ function render(){
      </div>
      ${it.intro!==undefined?`<p class="xp-intro" data-path="xp.${i}.intro">${it.intro}</p>`:""}
      <ul>${it.b.map((x,j)=>`<li data-path="xp.${i}.b.${j}">${x}</li>`).join("")}</ul>
-     ${XPPHOTOS[i]?`<div class="xp-photos">${XPPHOTOS[i].map(p=>`<img src="${p.src}" style="object-position:${p.pos}" alt="" loading="lazy">`).join("")}</div>`:""}
+     ${XPPHOTOS[i]?`<div class="xp-photos">${XPPHOTOS[i].map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</div>`:""}
      </div>`).join("");
   $("cv-skills").innerHTML=t.skills.map(([l,its],i)=>`<div class="srow">
      <div class="slabel" data-path="skills.${i}.0">${l}</div><div class="tags">${its.map((v,j)=>`<span class="tag" data-path="skills.${i}.1.${j}">${v}</span>`).join("")}</div></div>`).join("");
@@ -1133,12 +1146,16 @@ function render(){
   $("pf-title").textContent=t.pfTitle; $("pf-title").setAttribute("data-path","pfTitle");
   $("pf-grid").innerHTML=t.port.map((p,i)=>p.ghost
     ?`<div class="pcard ghost"><div class="pname">${p.name}</div><div class="pdesc">${p.desc}</div>${p.sub?`<div class="pstatus">${p.sub}</div>`:""}</div>`
-    :`<div class="pcard">
+    :`<div class="pcard${p.abstract?' pentry':''}" data-idx="${i}">
         ${p.img?`<img class="pthumb" src="${p.img}" data-pidx="${i}">`:`<div class="pthumb-add" data-pidx="${i}">+ imagen</div>`}
         <div class="ptop"><span class="pname" data-path="port.${i}.name">${p.name}</span><span class="ptag" data-path="port.${i}.tag">${p.tag}</span></div>
-        <div class="pdesc" data-path="port.${i}.desc">${p.desc}</div><div class="pstatus" data-path="port.${i}.st">${p.st}</div>
-        ${p.file?`<a class="plink" href="${p.file}" target="_blank" rel="noopener">▼ PDF</a>`:""}
-        ${PFPHOTOS[i]?`<div class="pf-photos">${PFPHOTOS[i].map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</div>`:""}
+        <div class="pdesc" data-path="port.${i}.desc">${p.desc}</div>
+        <div class="pbottom"><span class="pstatus" data-path="port.${i}.st">${p.st}</span>${p.abstract?`<span class="pchevron">▾</span>`:""}</div>
+        ${p.abstract?`<div class="pdetail">
+          <p class="pabstract" data-path="port.${i}.abstract">${p.abstract}</p>
+          ${PFPHOTOS[i]?`<div class="pf-photos">${PFPHOTOS[i].map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</div>`:""}
+          ${p.file?`<a class="plink" href="${p.file}" target="_blank" rel="noopener">▼ PDF</a>`:""}
+        </div>`:(p.file?`<a class="plink" href="${p.file}" target="_blank" rel="noopener">▼ PDF</a>`:"")}
         </div>`).join("");
 
   $("foot-r").textContent=t.foot; $("foot-r").setAttribute("data-path","foot");
@@ -1310,9 +1327,14 @@ $("ab-photo-btn").addEventListener("click",()=>{
 
 $("pf-grid").addEventListener("click",e=>{
   const t=e.target.closest("[data-pidx]");
-  if(!t||!editMode) return;
-  uploadTarget={type:"port",idx:Number(t.dataset.pidx)};
-  $("fileInput").click();
+  if(t&&editMode){
+    uploadTarget={type:"port",idx:Number(t.dataset.pidx)};
+    $("fileInput").click();
+    return;
+  }
+  if(editMode||e.target.closest("a")) return;
+  const card=e.target.closest(".pentry");
+  if(card) card.classList.toggle("open");
 });
 
 $("fileInput").addEventListener("change",e=>{
