@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daniel Rebolleda — Powertrain Calibration Engineer</title>
+<meta name="description" content="Daniel Rebolleda Hernández — hybrid powertrain calibration engineer. CV, about and portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /*VARS_START*/
+  --bg:#151515;
+  --bg2:#1a1a1a;
+  --panel:#191919;
+  --ink:#ECECEC;
+  --muted:#8b8b8b;
+  --faint:#5f5f5f;
+  --line:#2b2b2b;
+  --line2:#3d3d3d;
+  /*VARS_END*/
+  --head:"Oswald",sans-serif; --body:"Barlow Condensed",sans-serif; --mono:"Space Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:#fff;color:#111}
+.mono{font-family:var(--mono)}
+
+/* ---------------- ENTRY ---------------- */
+#entry{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;
+  transition:opacity .5s ease,visibility .5s}
+#entry.hide{opacity:0;visibility:hidden;pointer-events:none}
+.entry-in{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 22px}
+.stencil{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--muted);margin-bottom:18px;text-transform:uppercase}
+#entry h1{font-family:var(--head);font-weight:600;text-transform:uppercase;font-size:clamp(38px,8.4vw,72px);
+  line-height:.94;letter-spacing:.01em;margin-bottom:12px}
+.entry-sub{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.05em;margin-bottom:52px}
+.pick{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.pick::before,.pick::after{content:"";height:1px;width:40px;background:var(--line)}
+.flags{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:540px}
+.flag{width:90px;background:none;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;
+  gap:8px;padding:16px 0 12px;cursor:pointer;transition:.15s}
+.flag:hover,.flag:focus-visible{border-color:var(--ink);transform:translateY(-3px);outline:none}
+.flag .fg{font-size:28px;line-height:1}
+.flag .fl{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
+.flag:hover .fl{color:var(--ink)}
+.entry-plate{font-family:var(--mono);font-size:10px;color:var(--faint);padding:22px;text-align:center;letter-spacing:.16em}
+
+/* ---------------- SHELL ---------------- */
+#app{min-height:100vh;display:flex;flex-direction:column;opacity:0;transition:opacity .5s ease .15s}
+#app.on{opacity:1}
+header{position:sticky;top:0;z-index:40;background:rgba(21,21,21,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hbar{max-width:960px;margin:0 auto;width:100%;padding:15px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.mark{font-family:var(--head);font-weight:600;font-size:15px;letter-spacing:.06em;cursor:pointer;white-space:nowrap;text-transform:uppercase}
+.mark .dot{color:var(--muted)}
+.hnav{display:flex;gap:22px}
+.hnav button{font-family:var(--head);font-weight:500;font-size:14px;text-transform:uppercase;letter-spacing:.1em;
+  background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:5px 1px;cursor:pointer;transition:.15s}
+.hnav button:hover{color:var(--ink)}
+.hnav button.active{color:var(--ink);border-bottom-color:var(--ink)}
+.hnav button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.hlang{position:relative}
+.hlang>button{font-family:var(--mono);font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);
+  padding:7px 11px;cursor:pointer;display:flex;align-items:center;gap:7px}
+.hlang>button:hover{color:var(--ink);border-color:var(--line2)}
+.langmenu{position:absolute;right:0;top:calc(100% + 8px);background:var(--bg2);border:1px solid var(--line2);
+  display:none;min-width:150px;z-index:50}
+.langmenu.open{display:block}
+.langmenu button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;
+  color:var(--ink);font-family:var(--body);font-size:15px;padding:10px 14px;cursor:pointer;text-align:left;border-bottom:1px solid var(--line)}
+.langmenu button:last-child{border-bottom:none}
+.langmenu button:hover{background:var(--panel)}
+.langmenu .fg{font-size:17px}
+
+main{flex:1;max-width:960px;margin:0 auto;width:100%;padding:0 24px}
+.view{display:none;animation:fade .35s ease}
+.view.show{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.crumb{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.16em;text-transform:uppercase;
+  padding:34px 0 0;display:flex;align-items:center;gap:9px}
+.crumb .r{color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:1px}
+.vtitle{font-family:var(--head);font-weight:600;font-size:clamp(30px,5.6vw,46px);text-transform:uppercase;
+  line-height:1;margin:12px 0 34px;letter-spacing:.01em}
+
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  display:flex;align-items:center;gap:12px;margin:44px 0 20px}
+.eye .n{color:var(--faint)}
+.eye::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ABOUT */
+.lead{font-family:var(--head);font-weight:400;font-size:clamp(19px,3vw,25px);line-height:1.35;max-width:760px;margin-bottom:28px}
+.about p{max-width:700px;color:#c9c9c9;margin-bottom:16px;font-size:18px}
+.about p strong{color:var(--ink);font-weight:600}
+.facts{display:flex;flex-wrap:wrap;margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact{flex:1 1 150px;padding:18px 20px 18px 0;margin-right:20px}
+.fact+.fact{border-left:1px solid var(--line);padding-left:20px}
+.fact .k{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.fact .v{font-family:var(--head);font-weight:500;font-size:16px;text-transform:uppercase}
+.fact .v.r{color:var(--ink)}
+
+/* CV */
+.logo-badge{width:46px;height:46px;flex:none;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;padding:6px}
+.logo-badge img{max-width:100%;max-height:100%;object-fit:contain}
+.xp-item{border-left:1px solid var(--line2);padding:0 0 32px 24px;margin-left:3px;position:relative}
+.xp-item::before{content:"";position:absolute;left:-4px;top:8px;width:7px;height:7px;background:var(--ink)}
+.xp-item:last-child{padding-bottom:0}
+.xp-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:2px}
+.xp-role{font-family:var(--head);font-weight:600;font-size:20px;text-transform:uppercase;line-height:1.1}
+.xp-meta{font-family:var(--mono);font-size:12px;color:var(--muted);margin:6px 0 14px;display:flex;flex-wrap:wrap;gap:5px 16px}
+.xp-meta .d{color:var(--ink)}
+.xp-intro{color:#bdbdbd;font-size:16px;line-height:1.5;margin-bottom:14px;max-width:680px}
+.xp-item ul{list-style:none;display:grid;gap:8px}
+.xp-item li{position:relative;padding-left:18px;color:#c9c9c9}
+.xp-item li::before{content:"–";position:absolute;left:0;color:var(--faint)}
+.skills{display:grid;gap:22px}
+.srow{border:none;padding:0}
+.slabel{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.tags{display:block;color:#c9c9c9;font-size:17px;line-height:1.7}
+.tag{font-family:var(--body);font-size:inherit;color:inherit;background:none;border:none;padding:0}
+.tag+.tag::before{content:"  ·  ";color:var(--faint)}
+.edu-item{display:grid;grid-template-columns:46px 1fr auto;gap:3px 16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.edu-item:last-child{border-bottom:none}
+.edu-item .logo-badge{grid-row:1/3}
+.edu-t{font-family:var(--head);font-weight:600;font-size:17px;text-transform:uppercase}
+.edu-o{font-size:15px;color:var(--muted)}
+.edu-d{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;text-align:right}
+.edu-note{grid-column:2/-1;color:#bdbdbd;font-size:15px;margin-top:3px}
+.edu-note:empty{display:none;margin:0}
+body.editing .edu-note:empty{display:block;min-height:1.4em;opacity:.4;margin-top:3px}
+.edu-note em{color:var(--ink);font-style:italic}
+.certs{margin-top:18px;display:grid;gap:10px}
+.cert{display:flex;gap:14px;align-items:center;color:#c9c9c9}
+.cert .logo-badge{width:36px;height:36px;padding:5px}
+.cert .k{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;min-width:74px;text-transform:uppercase}
+
+/* PORTFOLIO */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.pcard{background:none;border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:13px;min-height:190px;transition:.15s}
+.pcard:hover{border-color:var(--line2);transform:translateY(-3px)}
+.pcard.ghost{border-style:dashed;opacity:.6;align-items:center;justify-content:center;text-align:center}
+.ptop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.pname{font-family:var(--head);font-weight:600;font-size:19px;text-transform:uppercase;line-height:1.05}
+.ptag{font-family:var(--mono);font-size:10px;color:var(--muted);border:1px solid var(--line);padding:4px 8px;white-space:nowrap}
+.pdesc{color:#bdbdbd;font-size:15.5px;flex:1}
+.pstatus{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.plink{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);
+  border:1px solid var(--line2);padding:8px 12px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start}
+.plink:hover{border-color:var(--ink)}
+
+/* CONTACT */
+.contact{margin:46px 0 10px;padding:26px 0 0;border-top:1px solid var(--line)}
+.contact .ct{font-family:var(--head);font-weight:600;font-size:18px;text-transform:uppercase;margin-bottom:16px}
+.crow{display:flex;flex-wrap:wrap;gap:12px}
+.btn{font-family:var(--mono);font-size:13.5px;border:1px solid var(--line2);padding:11px 16px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;background:none;color:var(--ink);transition:.15s}
+.btn:hover{border-color:var(--ink)}
+.btn.p{background:var(--ink);color:#111;border-color:var(--ink)}
+.btn.p:hover{background:#fff}
+
+footer{border-top:1px solid var(--line);margin-top:52px}
+.foot{max-width:960px;margin:0 auto;padding:22px 24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;
+  font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.06em}
+
+@media(max-width:560px){
+  .hnav{gap:14px}.hnav button{font-size:12px}
+  .edu-item{grid-template-columns:1fr}.edu-d{text-align:left}
+  .hbar{padding:12px 16px}main{padding:0 16px}.mark{font-size:13px}
+  .fact{flex:1 1 45%}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ---------------- EDIT MODE ---------------- */
+body.editing [data-path]{outline:1px dashed #4a4a4a;outline-offset:2px;border-radius:2px;cursor:text}
+body.editing [data-path]:hover{outline-color:#8b8b8b}
+body.editing [data-path]:focus{outline:1px solid #ECECEC;background:rgba(255,255,255,.05)}
+
+#editToolbar{position:fixed;right:18px;bottom:18px;z-index:90;display:flex;align-items:center;gap:10px;
+  background:rgba(25,25,25,.96);border:1px solid var(--line2);padding:10px 14px}
+#editToolbar button{font-family:var(--mono);font-size:12px;background:none;border:1px solid var(--line2);color:var(--ink);
+  padding:8px 12px;cursor:pointer;letter-spacing:.05em}
+#editToolbar button:hover{border-color:var(--ink)}
+#editToolbar button.on{background:var(--ink);color:#111;border-color:var(--ink)}
+#saveStatus{font-family:var(--mono);font-size:11px;color:var(--muted);min-width:76px}
+
+.editbar{position:fixed;right:18px;bottom:70px;z-index:89;background:rgba(25,25,25,.96);border:1px solid var(--line2);
+  padding:12px 14px;display:none;flex-direction:column;gap:8px;min-width:170px}
+.editbar.show{display:flex}
+.editbar label{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.editbar input[type=color]{width:34px;height:22px;border:1px solid var(--line2);background:none;padding:0;cursor:pointer}
+
+.ph-wrap{margin-bottom:22px}
+.ph-wrap img{max-width:180px;display:block;border:1px solid var(--line)}
+.ph-add{display:none;font-family:var(--mono);font-size:11px;color:var(--muted);border:1px dashed var(--line2);
+  padding:14px 22px;background:none;cursor:pointer}
+body.editing .ph-add{display:inline-flex}
+
+.pthumb{width:100%;height:120px;object-fit:cover;border:1px solid var(--line);cursor:pointer}
+.pthumb-add{display:none;font-family:var(--mono);font-size:10px;color:var(--muted);border:1px dashed var(--line2);
+  padding:14px;text-align:center;cursor:pointer}
+body.editing .pthumb-add{display:block}
+</style>
+</head>
+<body>
+
+<!-- ENTRY -->
+<div id="entry">
+  <div class="entry-in">
+    <div class="stencil">engineering portfolio — 2026</div>
+    <h1>Daniel<br>Rebolleda</h1>
+    <div class="entry-sub">powertrain calibration · hybrid &amp; ICE · Valladolid</div>
+    <div class="pick" id="pickTxt">select language</div>
+    <div class="flags" id="entryFlags"></div>
+  </div>
+  <div class="entry-plate">VALLADOLID · SPAIN</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="hbar">
+      <div class="mark" id="goHome">DANIEL REBOLLEDA</div>
+      <nav class="hnav" id="nav">
+        <button data-view="cv" class="active">CV</button>
+        <button data-view="about">About</button>
+        <button data-view="portfolio">Portfolio</button>
+      </nav>
+      <div class="hlang">
+        <button id="langBtn"><span id="langFlag">🇬🇧</span><span id="langCode">EN</span> ▾</button>
+        <div class="langmenu" id="langMenu"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- CV -->
+    <section class="view show" id="view-cv">
+      <div class="crumb"><span class="r">01</span> <span id="cb-cv"></span></div>
+      <h1 class="vtitle" id="cv-title"></h1>
+      <div class="eye"><span class="n">//</span><span id="cv-e-xp"></span></div>
+      <div id="cv-xp"></div>
+      <div class="eye"><span class="n">//</span><span id="cv-e-sk"></span></div>
+      <div class="skills" id="cv-skills"></div>
+      <div class="eye"><span class="n">//</span><span id="cv-e-ed"></span></div>
+      <div class="edu" id="cv-edu"></div>
+      <div class="certs" id="cv-certs"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="view" id="view-about">
+      <div class="crumb"><span class="r">02</span> <span id="cb-about"></span></div>
+      <h1 class="vtitle" id="ab-title"></h1>
+      <div class="ph-wrap" id="ab-photo-wrap">
+        <img id="ab-photo" alt="" style="display:none">
+        <button class="ph-add" id="ab-photo-btn" type="button">+ Añadir / cambiar foto</button>
+      </div>
+      <p class="lead" id="ab-lead"></p>
+      <div class="about" id="ab-body"></div>
+      <div class="facts" id="ab-facts"></div>
+      <div class="contact">
+        <div class="ct" id="ab-ct"></div>
+        <div class="crow">
+          <a class="btn p" href="mailto:danielrebolleda@pm.me">✉ danielrebolleda@pm.me</a>
+          <a class="btn" href="https://www.linkedin.com/in/daniel-rebolleda-hernández-a967012a1/" target="_blank" rel="noopener">in · LinkedIn ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="view" id="view-portfolio">
+      <div class="crumb"><span class="r">03</span> <span id="cb-portfolio"></span></div>
+      <h1 class="vtitle" id="pf-title"></h1>
+      <p class="lead" id="pf-sub"></p>
+      <div class="pgrid" id="pf-grid"></div>
+    </section>
+  </main>
+
+  <footer><div class="foot"><span>© <span id="year"></span> Daniel Rebolleda Hernández</span><span id="foot-r"></span></div></footer>
+</div>
+
+<!-- EDIT MODE UI -->
+<div class="editbar" id="editbar">
+  <label>Fondo <input type="color" id="cVarBg"></label>
+  <label>Texto <input type="color" id="cVarInk"></label>
+  <label>Secundario <input type="color" id="cVarMuted"></label>
+  <label>Panel <input type="color" id="cVarPanel"></label>
+</div>
+<div id="editToolbar">
+  <button id="editToggle" type="button">✎ Editar</button>
+  <span id="saveStatus"></span>
+</div>
+<input type="file" id="fileInput" accept="image/*" style="display:none">
+
+<script>
+const LANGS=[["en","🇬🇧","English"],["es","🇪🇸","Español"],["fr","🇫🇷","Français"],["it","🇮🇹","Italiano"],["de","🇩🇪","Deutsch"]];
+
+let SITE=/*SITE_START*/{"photo":"img/profile.jpg"}/*SITE_END*/;
+
+const LOGOS={
+ xp:["img/logos/avl.jpg","img/logos/etta.webp"],
+ edu:["img/logos/uned.jpg","img/logos/aarhus.svg","img/logos/uva.svg"],
+ certs:["img/logos/tudelft.svg","img/logos/race.svg","img/logos/michelin.svg","img/logos/cambridge.svg"]
+};
+
+const C=/*C_START*/{
+ "en": {
+  "nav": [
+   "CV",
+   "About",
+   "Portfolio"
+  ],
+  "cbCv": "curriculum vitae",
+  "cbAbout": "about me",
+  "cbPortfolio": "projects",
+  "cvTitle": "Curriculum vitae",
+  "eXp": "experience",
+  "eSk": "capabilities",
+  "eEd": "education & training",
+  "xp": [
+   {
+    "role": "Hybrid Powertrain Calibration Engineer",
+    "org": "AVL · Valladolid, Spain",
+    "dates": "Jun 2025 – Present",
+    "b": [
+     "Calibrate combustion-engine functions within the hybrid system — air path, combustion, thermal management, aftertreatment — under performance, emissions and drivability targets.",
+     "Own the full ECM/HEVC calibration and validation process, from calibration proposals through to release.",
+     "Manage complete test campaigns (BAC, BAR, BRAP): planning, vehicle preparation and instrumentation, execution and analysis.",
+     "Derive ICE–electric torque-split and battery SOC strategies, balancing consumption against performance and drivability.",
+     "Run dyno and on-track measurement campaigns to verify calibration and software changes before sign-off.",
+     "Operate autonomously on remote field campaigns across altitude and climate extremes."
+    ]
+   },
+   {
+    "role": "International Cooperation Project",
+    "org": "Etta Projects NGO · Bolivia",
+    "dates": "Jul – Aug 2024",
+    "b": [
+     "P.A.C.I.D. scholarship — engineering support for development projects in a resource-limited, international environment."
+    ]
+   }
+  ],
+  "skills": [
+   [
+    "Calibration & Testing",
+    [
+     "ECM/HEVC calibration",
+     "Engine calibration",
+     "Hybrid energy management",
+     "Battery SOC strategy",
+     "Drivability",
+     "Emissions",
+     "Design of Experiments",
+     "Test campaign management",
+     "Dyno & track testing",
+     "Altitude & climate testing"
+    ]
+   ],
+   [
+    "Tools & Software",
+    [
+     "ETAS INCA",
+     "MDA",
+     "AVL Concerto",
+     "AVL Creta",
+     "DDT2000",
+     "MATLAB / Simulink",
+     "Python",
+     "TensorFlow / Keras",
+     "A2L · S19",
+     "CAN"
+    ]
+   ],
+   [
+    "Methods & Standards",
+    [
+     "Functional safety / ISO 26262",
+     "ASPICE",
+     "Lean Six Sigma (DMAIC)"
+    ]
+   ]
+  ],
+  "edu": [
+   [
+    "MSc in Industrial Engineering — Mechanical spec.",
+    "UNED",
+    "2026 – Present",
+    ""
+   ],
+   [
+    "Six Sigma Design & Innovation (10 ECTS)",
+    "Aarhus University",
+    "2026",
+    "Lean Six Sigma methodology applied to product, process and service design. Covered the DMAIC cycle (define, measure, analyse, improve, control) as a structured framework for reducing process variation and waste, alongside \"lean and green\" approaches that weigh environmental and social impact as design constraints rather than afterthoughts."
+   ],
+   [
+    "BSc in Industrial Engineering",
+    "Universidad de Valladolid · EUR-ACE® · 240 ECTS",
+    "2019 – 2026",
+    "Thesis: <em>State-of-Charge Prediction for PHEV Batteries using Explainable AI</em> — Python, Keras/TensorFlow. Grade 9.7/10."
+   ]
+  ],
+  "certs": [
+   [
+    "TU Delft",
+    "Sustainable Aircraft Design — Professional Certificate (2026): Aeronautical Engineering; Aerospace Structures & Materials; Sustainable Aviation."
+   ],
+   [
+    "RACE",
+    "Advanced Driving Course (2025) — vehicle handling & subjective drivability assessment."
+   ],
+   [
+    "Michelin",
+    "Soft Skills Programme (40 h) — teamwork, facilitation, presentations."
+   ],
+   [
+    "Cambridge",
+    "English B2 First Certificate."
+   ]
+  ],
+  "abTitle": "About me",
+  "abLead": "I'm a powertrain calibration engineer who is happiest where the control software meets real hardware — and where the only way to know you're right is to take it out and measure it.",
+  "about": [
+   "At <strong>AVL</strong> I work across the full ECM/HEVC calibration and validation cycle for hybrid vehicles, from the first calibration proposal to customer sign-off. My current work covers on-board monitoring and energy-management laws for a hybrid AWD project.",
+   "The part I care about most is tuning the split between the combustion engine and the electric machines, managing battery state of charge, and closing the loop between what simulation predicted and what the car actually does — often on remote field campaigns across altitude and climate extremes, where the powertrain behaves nothing like it did on the bench.",
+   "This discipline travels well. Calibrating, verifying and validating complex systems is the same craft in automotive, motorsport, aerospace or defence: make them behave as intended, under load, with evidence — and that's the work I want to keep doing, wherever it's demanding."
+  ],
+  "facts": [
+   [
+    "Base",
+    "Valladolid, ES"
+   ],
+   [
+    "Role",
+    "Calibration Eng."
+   ],
+   [
+    "Focus",
+    "Hybrid & ICE"
+   ],
+   [
+    "Travel",
+    "Available worldwide"
+   ]
+  ],
+  "abCt": "Let's talk",
+  "pfTitle": "Projects",
+  "pfSub": "A selection of engineering work. More detail coming soon.",
+  "port": [
+   {
+    "name": "SOC prediction · XAI",
+    "tag": "Machine Learning",
+    "desc": "State-of-charge prediction for plug-in hybrid batteries using explainable AI — neural networks with interpretability for safety-relevant use. Graded 9.7/10.",
+    "st": "Thesis",
+    "file": "img/TFG_Daniel_Rebolleda.pdf"
+   },
+   {
+    "ghost": 1,
+    "name": "More to come",
+    "desc": "Further projects will be added here."
+   }
+  ],
+  "foot": "Valladolid, Spain · open to relocation"
+ },
+ "es": {
+  "nav": [
+   "CV",
+   "Sobre mí",
+   "Portfolio"
+  ],
+  "cbCv": "currículum",
+  "cbAbout": "sobre mí",
+  "cbPortfolio": "proyectos",
+  "cvTitle": "Currículum",
+  "eXp": "experiencia",
+  "eSk": "competencias",
+  "eEd": "formación",
+  "xp": [
+   {
+    "role": "Ingeniero de Calibración de Powertrain Híbrido",
+    "org": "AVL · Valladolid, España",
+    "dates": "Jun 2025 – Actualidad",
+    "intro": "Calibración y validación de estrategias de control de sistemas propulsores híbridos, equilibrando consumo de combustible, emisiones, agrado de conducción y prestaciones a lo largo de todo el ciclo de desarrollo, desde la simulación y el banco de ensayos hasta el vehículo, la pista y los ensayos de campo en condiciones extremas.",
+    "b": [
+     "Calibrar las funciones del motor de combustión interna dentro del sistema híbrido: trayecto de aire, combustión, gestión térmica y postratamiento de gases. Cumplir los objetivos de emisiones manteniendo eficiente la contribución del motor en todos los modos de funcionamiento.",
+     "Optimizar la gestión energética entre el motor de combustión interna y las máquinas eléctricas de alta tensión, derivando estrategias de reparto de par que sostengan los objetivos de consumo sin renunciar a las prestaciones.",
+     "Calibrar la gestión del estado de carga (SoC) de la batería y el control de cambios de la caja automática, ajustando el compromiso entre eficiencia y respuesta que determina cómo se siente realmente el coche al conducir.",
+     "Ejecutar campañas de ensayo en entornos de distinta altitud y climatología, calibrando y validando el comportamiento del sistema propulsor allí donde la temperatura ambiente y la densidad del aire llevan al sistema fuera de su envolvente de operación nominal.",
+     "Realizar campañas de medida en banco de rodillos y en pista, adquiriendo y analizando datos para verificar los cambios de calibración y software propuestos antes de su validación final (sign-off).",
+     "Validar la funcionalidad del software de control en simulación con antelación a los ensayos físicos, reduciendo el tiempo de banco dedicado a estrategias que nunca iban a funcionar.",
+     "Trabajar directamente con los equipos de ingeniería del cliente y con los grupos internos de software, simulación y ensayo, presentando resultados de calibración y defendiendo los cambios propuestos en revisiones técnicas.",
+     "Operar de forma autónoma en campañas de campo remotas, planificando la instrumentación y los calendarios de ensayo y tomando decisiones de calibración sobre el terreno."
+    ]
+   },
+   {
+    "role": "Proyecto de Cooperación Internacional",
+    "org": "ONG Etta Projects · Bolivia",
+    "dates": "Jul – Ago 2024",
+    "b": [
+     "Beca P.A.C.I.D. — apoyo de ingeniería a proyectos de desarrollo en un entorno internacional con recursos limitados."
+    ]
+   }
+  ],
+  "skills": [
+   [
+    "Calibración y ensayo",
+    [
+     "Calibración ECM/HEVC",
+     "Calibración de motor",
+     "Gestión de energía híbrida",
+     "Estrategia de SOC",
+     "Drivability",
+     "Emisiones",
+     "Diseño de experimentos",
+     "Gestión de campañas",
+     "Banco y pista",
+     "Ensayos altitud y clima"
+    ]
+   ],
+   [
+    "Herramientas y software",
+    [
+     "ETAS INCA",
+     "MDA",
+     "AVL Concerto",
+     "AVL Creta",
+     "DDT2000",
+     "MATLAB / Simulink",
+     "Python",
+     "TensorFlow / Keras",
+     "A2L · S19",
+     "CAN"
+    ]
+   ],
+   [
+    "Métodos y normas",
+    [
+     "Seguridad funcional / ISO 26262",
+     "ASPICE",
+     "Lean Six Sigma (DMAIC)"
+    ]
+   ]
+  ],
+  "edu": [
+   [
+    "Máster en Ingeniería Industrial — esp. Mecánica",
+    "UNED",
+    "2026 – Actualidad",
+    ""
+   ],
+   [
+    "Six Sigma Design & Innovation (10 ECTS)",
+    "Aarhus University",
+    "2026",
+    "Metodología Lean Six Sigma aplicada al diseño de producto, proceso y servicio. Se trabajó el ciclo DMAIC (definir, medir, analizar, mejorar, controlar) como marco estructurado para reducir la variación y el desperdicio en los procesos, junto con enfoques \"lean and green\" que consideran el impacto ambiental y social como restricciones de diseño desde el principio, no como algo añadido después."
+   ],
+   [
+    "Grado en Ingeniería en Tecnologías Industriales",
+    "Universidad de Valladolid · EUR-ACE® · 240 ECTS",
+    "2019 – 2026",
+    "TFG: <em>Predicción del estado de carga de baterías PHEV mediante IA explicable</em> — Python, Keras/TensorFlow. Nota 9,7/10."
+   ]
+  ],
+  "certs": [
+   [
+    "TU Delft",
+    "Sustainable Aircraft Design — Certificado profesional (2026): ingeniería aeronáutica; estructuras y materiales aeroespaciales; aviación sostenible."
+   ],
+   [
+    "RACE",
+    "Curso de conducción avanzada (2025) — dinámica del vehículo y evaluación subjetiva de drivability."
+   ],
+   [
+    "Michelin",
+    "Programa de soft skills (40 h) — trabajo en equipo, reuniones, presentaciones."
+   ],
+   [
+    "Cambridge",
+    "Inglés B2 First Certificate."
+   ]
+  ],
+  "abTitle": "Sobre mí",
+  "abLead": "Soy ingeniero de calibración de powertrain, y donde más disfruto es donde el software de control se encuentra con el hardware real — y la única forma de saber si aciertas es salir a medirlo.",
+  "about": [
+   "En <strong>AVL</strong> trabajo en todo el ciclo de calibración y validación ECM/HEVC de vehículos híbridos, desde la primera propuesta hasta la aprobación del cliente. Ahora me ocupo del on-board monitoring y las leyes de gestión de energía de un proyecto híbrido AWD.",
+   "Lo que más me gusta es ajustar el reparto entre el motor de combustión y las máquinas eléctricas, gestionar el estado de carga de la batería y cerrar el lazo entre lo que predijo la simulación y lo que hace el coche — a menudo en campañas de campo en altitud y clima extremos, donde el powertrain se comporta de forma muy distinta a como lo hizo en banco.",
+   "Esta disciplina viaja bien. Calibrar, verificar y validar sistemas complejos es el mismo oficio en automoción, motorsport, aeroespacial o defensa: que se comporten como deben, bajo carga y con evidencia — y ese es el trabajo que quiero seguir haciendo, allí donde sea exigente."
+  ],
+  "facts": [
+   [
+    "Base",
+    "Valladolid, ES"
+   ],
+   [
+    "Puesto",
+    "Ing. calibración"
+   ],
+   [
+    "Foco",
+    "Híbrido y MCI"
+   ],
+   [
+    "Viajes",
+    "Disponibilidad total"
+   ]
+  ],
+  "abCt": "Hablemos",
+  "pfTitle": "Proyectos",
+  "pfSub": "Una selección de trabajo de ingeniería. Más detalle próximamente.",
+  "port": [
+   {
+    "name": "Predicción SOC · IA XAI",
+    "tag": "Machine Learning",
+    "desc": "Predicción del estado de carga de baterías híbridas enchufables con IA explicable — redes neuronales con interpretabilidad para sistemas críticos. Nota 9,7/10.",
+    "st": "TFG",
+    "file": "img/TFG_Daniel_Rebolleda.pdf"
+   },
+   {
+    "ghost": 1,
+    "name": "Próximamente",
+    "desc": "Aquí se irán añadiendo más proyectos."
+   }
+  ],
+  "foot": "Valladolid, España · disponible para reubicación"
+ },
+ "fr": {
+  "nav": [
+   "CV",
+   "À propos",
+   "Portfolio"
+  ],
+  "cbCv": "curriculum vitæ",
+  "cbAbout": "à propos",
+  "cbPortfolio": "projets",
+  "cvTitle": "Curriculum vitæ",
+  "eXp": "expérience",
+  "eSk": "compétences",
+  "eEd": "formation",
+  "xp": [
+   {
+    "role": "Ingénieur Calibration GMP Hybride",
+    "org": "AVL · Valladolid, Espagne",
+    "dates": "Juin 2025 – Présent",
+    "b": [
+     "Je calibre les fonctions du moteur thermique dans le système hybride — air path, combustion, gestion thermique, post-traitement — selon les objectifs de performance, d'émissions et d'agrément.",
+     "Je pilote l'ensemble du processus de calibration et validation ECM/HEVC, des propositions jusqu'à la livraison.",
+     "Je gère des campagnes d'essais complètes (BAC, BAR, BRAP) : planification, préparation et instrumentation du véhicule, exécution et analyse.",
+     "Je définis les stratégies de répartition de couple thermique–électrique et de SOC batterie, en équilibrant consommation, performance et agrément.",
+     "Je mène des campagnes de mesure au banc et en piste pour valider les évolutions avant livraison.",
+     "Je travaille en autonomie sur des campagnes terrain distantes, en altitude et climats extrêmes."
+    ]
+   },
+   {
+    "role": "Projet de coopération internationale",
+    "org": "ONG Etta Projects · Bolivie",
+    "dates": "Juil – Août 2024",
+    "b": [
+     "Bourse P.A.C.I.D. — appui d'ingénierie à des projets de développement dans un environnement international à ressources limitées."
+    ]
+   }
+  ],
+  "skills": [
+   [
+    "Calibration & essais",
+    [
+     "Calibration ECM/HEVC",
+     "Calibration moteur",
+     "Gestion d'énergie hybride",
+     "Stratégie SOC",
+     "Agrément",
+     "Émissions",
+     "Plans d'expériences",
+     "Gestion de campagnes",
+     "Banc & piste",
+     "Essais altitude & climat"
+    ]
+   ],
+   [
+    "Outils & logiciels",
+    [
+     "ETAS INCA",
+     "MDA",
+     "AVL Concerto",
+     "AVL Creta",
+     "DDT2000",
+     "MATLAB / Simulink",
+     "Python",
+     "TensorFlow / Keras",
+     "A2L · S19",
+     "CAN"
+    ]
+   ],
+   [
+    "Méthodes & normes",
+    [
+     "Sécurité fonctionnelle / ISO 26262",
+     "ASPICE",
+     "Lean Six Sigma (DMAIC)"
+    ]
+   ]
+  ],
+  "edu": [
+   [
+    "Master en Génie Industriel — spé. Mécanique",
+    "UNED",
+    "2026 – Présent",
+    ""
+   ],
+   [
+    "Six Sigma Design & Innovation (10 ECTS)",
+    "Aarhus University",
+    "2026",
+    "Méthodologie Lean Six Sigma appliquée à la conception de produits, de processus et de services. Le cycle DMAIC (définir, mesurer, analyser, améliorer, contrôler) a été abordé comme cadre structuré pour réduire la variabilité et le gaspillage des processus, ainsi que les approches « lean and green », qui intègrent l'impact environnemental et social comme contraintes de conception dès le départ plutôt que comme un ajout ultérieur."
+   ],
+   [
+    "Licence en Génie Industriel",
+    "Universidad de Valladolid · EUR-ACE® · 240 ECTS",
+    "2019 – 2026",
+    "Mémoire : <em>Prédiction de l'état de charge de batteries PHEV par IA explicable</em> — Python, Keras/TensorFlow. Note 9,7/10."
+   ]
+  ],
+  "certs": [
+   [
+    "TU Delft",
+    "Sustainable Aircraft Design — Certificat professionnel (2026) : ingénierie aéronautique ; structures et matériaux aérospatiaux ; aviation durable."
+   ],
+   [
+    "RACE",
+    "Stage de conduite avancée (2025) — dynamique véhicule et évaluation subjective de l'agrément."
+   ],
+   [
+    "Michelin",
+    "Programme soft skills (40 h) — travail d'équipe, réunions, présentations."
+   ],
+   [
+    "Cambridge",
+    "Anglais B2 First Certificate."
+   ]
+  ],
+  "abTitle": "À propos",
+  "abLead": "Je suis ingénieur calibration groupe motopropulseur, et je m'épanouis là où le logiciel de contrôle rencontre le matériel réel — où la seule façon de savoir qu'on a raison, c'est d'aller le mesurer.",
+  "about": [
+   "Chez <strong>AVL</strong>, je travaille sur tout le cycle de calibration et validation ECM/HEVC des véhicules hybrides, de la première proposition jusqu'à la validation client. Je m'occupe actuellement du monitoring embarqué et des lois de gestion d'énergie d'un projet hybride AWD.",
+   "Ce qui me passionne, c'est régler la répartition entre le moteur thermique et les machines électriques, gérer l'état de charge de la batterie et boucler l'écart entre la simulation et le comportement réel — souvent lors de campagnes terrain en altitude et climats extrêmes, où le groupe motopropulseur ne se comporte plus comme au banc.",
+   "Cette discipline voyage bien. Calibrer, vérifier et valider des systèmes complexes est le même métier dans l'automobile, le sport auto, l'aérospatial ou la défense : garantir le comportement attendu, en charge, avec des preuves — et c'est ce travail que je veux continuer, partout où il est exigeant."
+  ],
+  "facts": [
+   [
+    "Base",
+    "Valladolid, ES"
+   ],
+   [
+    "Poste",
+    "Ing. calibration"
+   ],
+   [
+    "Focus",
+    "Hybride & thermique"
+   ],
+   [
+    "Déplacements",
+    "Disponible partout"
+   ]
+  ],
+  "abCt": "Discutons",
+  "pfTitle": "Projets",
+  "pfSub": "Une sélection de travaux d'ingénierie. Plus de détails à venir.",
+  "port": [
+   {
+    "name": "Prédiction SOC · IA XAI",
+    "tag": "Machine Learning",
+    "desc": "Prédiction de l'état de charge de batteries hybrides rechargeables par IA explicable — réseaux de neurones interprétables pour usage critique. Note 9,7/10.",
+    "st": "Mémoire",
+    "file": "img/TFG_Daniel_Rebolleda.pdf"
+   },
+   {
+    "ghost": 1,
+    "name": "À venir",
+    "desc": "D'autres projets seront ajoutés ici."
+   }
+  ],
+  "foot": "Valladolid, Espagne · ouvert à la mobilité"
+ },
+ "it": {
+  "nav": [
+   "CV",
+   "Chi sono",
+   "Portfolio"
+  ],
+  "cbCv": "curriculum",
+  "cbAbout": "chi sono",
+  "cbPortfolio": "progetti",
+  "cvTitle": "Curriculum",
+  "eXp": "esperienza",
+  "eSk": "competenze",
+  "eEd": "formazione",
+  "xp": [
+   {
+    "role": "Ingegnere Calibrazione Powertrain Ibrido",
+    "org": "AVL · Valladolid, Spagna",
+    "dates": "Giu 2025 – Presente",
+    "b": [
+     "Calibro le funzioni del motore termico nel sistema ibrido — air path, combustione, gestione termica, post-trattamento — secondo obiettivi di prestazioni, emissioni e guidabilità.",
+     "Gestisco l'intero processo di calibrazione e validazione ECM/HEVC, dalle proposte fino al rilascio.",
+     "Conduco campagne di test complete (BAC, BAR, BRAP): pianificazione, preparazione e strumentazione del veicolo, esecuzione e analisi.",
+     "Definisco strategie di ripartizione di coppia termico–elettrico e di SOC batteria, bilanciando consumi, prestazioni e guidabilità.",
+     "Eseguo campagne di misura al banco e in pista per verificare le modifiche prima dell'approvazione.",
+     "Lavoro in autonomia in campagne sul campo remote, in altitudine e climi estremi."
+    ]
+   },
+   {
+    "role": "Progetto di Cooperazione Internazionale",
+    "org": "ONG Etta Projects · Bolivia",
+    "dates": "Lug – Ago 2024",
+    "b": [
+     "Borsa P.A.C.I.D. — supporto ingegneristico a progetti di sviluppo in un ambiente internazionale con risorse limitate."
+    ]
+   }
+  ],
+  "skills": [
+   [
+    "Calibrazione & test",
+    [
+     "Calibrazione ECM/HEVC",
+     "Calibrazione motore",
+     "Gestione energia ibrida",
+     "Strategia SOC",
+     "Guidabilità",
+     "Emissioni",
+     "Design of Experiments",
+     "Gestione campagne",
+     "Banco & pista",
+     "Test altitudine & clima"
+    ]
+   ],
+   [
+    "Strumenti & software",
+    [
+     "ETAS INCA",
+     "MDA",
+     "AVL Concerto",
+     "AVL Creta",
+     "DDT2000",
+     "MATLAB / Simulink",
+     "Python",
+     "TensorFlow / Keras",
+     "A2L · S19",
+     "CAN"
+    ]
+   ],
+   [
+    "Metodi & standard",
+    [
+     "Sicurezza funzionale / ISO 26262",
+     "ASPICE",
+     "Lean Six Sigma (DMAIC)"
+    ]
+   ]
+  ],
+  "edu": [
+   [
+    "Laurea Magistrale in Ingegneria Industriale — Meccanica",
+    "UNED",
+    "2026 – Presente",
+    ""
+   ],
+   [
+    "Six Sigma Design & Innovation (10 ECTS)",
+    "Aarhus University",
+    "2026",
+    "Metodologia Lean Six Sigma applicata alla progettazione di prodotto, processo e servizio. È stato affrontato il ciclo DMAIC (definire, misurare, analizzare, migliorare, controllare) come quadro strutturato per ridurre la variabilità e gli sprechi nei processi, insieme ad approcci \"lean and green\" che considerano l'impatto ambientale e sociale come vincoli di progettazione fin dall'inizio, non come un ripensamento successivo."
+   ],
+   [
+    "Laurea in Ingegneria Industriale",
+    "Universidad de Valladolid · EUR-ACE® · 240 ECTS",
+    "2019 – 2026",
+    "Tesi: <em>Previsione dello stato di carica di batterie PHEV con IA spiegabile</em> — Python, Keras/TensorFlow. Voto 9,7/10."
+   ]
+  ],
+  "certs": [
+   [
+    "TU Delft",
+    "Sustainable Aircraft Design — Certificato professionale (2026): ingegneria aeronautica; strutture e materiali aerospaziali; aviazione sostenibile."
+   ],
+   [
+    "RACE",
+    "Corso di guida avanzata (2025) — dinamica del veicolo e valutazione soggettiva della guidabilità."
+   ],
+   [
+    "Michelin",
+    "Programma soft skills (40 h) — lavoro di squadra, riunioni, presentazioni."
+   ],
+   [
+    "Cambridge",
+    "Inglese B2 First Certificate."
+   ]
+  ],
+  "abTitle": "Chi sono",
+  "abLead": "Sono un ingegnere di calibrazione powertrain, e do il meglio dove il software di controllo incontra l'hardware reale — dove l'unico modo per sapere se hai ragione è uscire e misurarlo.",
+  "about": [
+   "In <strong>AVL</strong> lavoro sull'intero ciclo di calibrazione e validazione ECM/HEVC dei veicoli ibridi, dalla prima proposta fino all'approvazione del cliente. Attualmente mi occupo del monitoraggio a bordo e delle leggi di gestione dell'energia di un progetto ibrido AWD.",
+   "Ciò che mi appassiona è regolare la ripartizione tra motore termico e macchine elettriche, gestire lo stato di carica della batteria e chiudere l'anello tra simulazione e comportamento reale — spesso in campagne sul campo in altitudine e climi estremi, dove il powertrain si comporta in modo molto diverso rispetto al banco.",
+   "Questa disciplina viaggia bene. Calibrare, verificare e validare sistemi complessi è lo stesso mestiere nell'automotive, nel motorsport, nell'aerospazio o nella difesa: farli comportare come previsto, sotto carico, con evidenze — ed è il lavoro che voglio continuare a fare, ovunque sia esigente."
+  ],
+  "facts": [
+   [
+    "Base",
+    "Valladolid, ES"
+   ],
+   [
+    "Ruolo",
+    "Ing. calibrazione"
+   ],
+   [
+    "Focus",
+    "Ibrido & termico"
+   ],
+   [
+    "Trasferte",
+    "Piena disponibilità"
+   ]
+  ],
+  "abCt": "Parliamone",
+  "pfTitle": "Progetti",
+  "pfSub": "Una selezione di lavoro ingegneristico. Maggiori dettagli in arrivo.",
+  "port": [
+   {
+    "name": "Previsione SOC · IA XAI",
+    "tag": "Machine Learning",
+    "desc": "Previsione dello stato di carica di batterie ibride plug-in con IA spiegabile — reti neurali interpretabili per usi critici. Voto 9,7/10.",
+    "st": "Tesi",
+    "file": "img/TFG_Daniel_Rebolleda.pdf"
+   },
+   {
+    "ghost": 1,
+    "name": "In arrivo",
+    "desc": "Altri progetti verranno aggiunti qui."
+   }
+  ],
+  "foot": "Valladolid, Spagna · disponibile al trasferimento"
+ },
+ "de": {
+  "nav": [
+   "CV",
+   "Über mich",
+   "Portfolio"
+  ],
+  "cbCv": "lebenslauf",
+  "cbAbout": "über mich",
+  "cbPortfolio": "projekte",
+  "cvTitle": "Lebenslauf",
+  "eXp": "erfahrung",
+  "eSk": "kompetenzen",
+  "eEd": "ausbildung",
+  "xp": [
+   {
+    "role": "Applikationsingenieur Hybrid-Antriebsstrang",
+    "org": "AVL · Valladolid, Spanien",
+    "dates": "Jun 2025 – heute",
+    "b": [
+     "Applikation der Verbrennungsmotor-Funktionen im Hybridsystem — Air Path, Verbrennung, Thermomanagement, Abgasnachbehandlung — nach Leistungs-, Emissions- und Fahrbarkeitszielen.",
+     "Verantwortung für den gesamten ECM/HEVC-Applikations- und Validierungsprozess, von Vorgaben bis zum Release.",
+     "Steuerung kompletter Testkampagnen (BAC, BAR, BRAP): Planung, Fahrzeugvorbereitung und Instrumentierung, Durchführung und Auswertung.",
+     "Ableitung von Verbrenner–E-Maschine-Momentenaufteilung und Batterie-SOC-Strategien, mit Abwägung von Verbrauch, Leistung und Fahrbarkeit.",
+     "Durchführung von Messkampagnen am Prüfstand und auf der Strecke zur Absicherung vor der Freigabe.",
+     "Eigenständige Arbeit in entfernten Feldkampagnen unter extremen Höhen- und Klimabedingungen."
+    ]
+   },
+   {
+    "role": "Internationales Kooperationsprojekt",
+    "org": "NGO Etta Projects · Bolivien",
+    "dates": "Jul – Aug 2024",
+    "b": [
+     "P.A.C.I.D.-Stipendium — ingenieurtechnische Unterstützung von Entwicklungsprojekten in einem ressourcenarmen, internationalen Umfeld."
+    ]
+   }
+  ],
+  "skills": [
+   [
+    "Applikation & Test",
+    [
+     "ECM/HEVC-Applikation",
+     "Motorapplikation",
+     "Hybrid-Energiemanagement",
+     "SOC-Strategie",
+     "Fahrbarkeit",
+     "Emissionen",
+     "Statistische Versuchsplanung",
+     "Testkampagnen-Management",
+     "Prüfstand & Strecke",
+     "Höhen- & Klimatests"
+    ]
+   ],
+   [
+    "Tools & Software",
+    [
+     "ETAS INCA",
+     "MDA",
+     "AVL Concerto",
+     "AVL Creta",
+     "DDT2000",
+     "MATLAB / Simulink",
+     "Python",
+     "TensorFlow / Keras",
+     "A2L · S19",
+     "CAN"
+    ]
+   ],
+   [
+    "Methoden & Normen",
+    [
+     "Funktionale Sicherheit / ISO 26262",
+     "ASPICE",
+     "Lean Six Sigma (DMAIC)"
+    ]
+   ]
+  ],
+  "edu": [
+   [
+    "M.Sc. Wirtschaftsingenieurwesen — Maschinenbau",
+    "UNED",
+    "2026 – heute",
+    ""
+   ],
+   [
+    "Six Sigma Design & Innovation (10 ECTS)",
+    "Aarhus University",
+    "2026",
+    "Lean-Six-Sigma-Methodik angewendet auf Produkt-, Prozess- und Dienstleistungsdesign. Der DMAIC-Zyklus (Define, Measure, Analyze, Improve, Control) wurde als strukturierter Rahmen zur Reduzierung von Prozessvariation und Verschwendung behandelt, ergänzt durch „Lean and Green\"-Ansätze, die Umwelt- und Sozialauswirkungen von Anfang an als Designbeschränkung berücksichtigen, statt als nachträglichen Gedanken."
+   ],
+   [
+    "B.Sc. Industrielle Technologien (Ingenieurwesen)",
+    "Universidad de Valladolid · EUR-ACE® · 240 ECTS",
+    "2019 – 2026",
+    "Abschlussarbeit: <em>Ladezustandsprognose von PHEV-Batterien mit erklärbarer KI</em> — Python, Keras/TensorFlow. Note 9,7/10."
+   ]
+  ],
+  "certs": [
+   [
+    "TU Delft",
+    "Sustainable Aircraft Design — Professional Certificate (2026): Luftfahrttechnik; Luft-/Raumfahrtstrukturen & Werkstoffe; nachhaltige Luftfahrt."
+   ],
+   [
+    "RACE",
+    "Fahrdynamiktraining (2025) — Fahrdynamik und subjektive Fahrbarkeitsbewertung."
+   ],
+   [
+    "Michelin",
+    "Soft-Skills-Programm (40 h) — Teamarbeit, Meetings, Präsentationen."
+   ],
+   [
+    "Cambridge",
+    "Englisch B2 First Certificate."
+   ]
+  ],
+  "abTitle": "Über mich",
+  "abLead": "Ich bin Applikationsingenieur für Antriebsstränge und am liebsten dort, wo die Regelsoftware auf reale Hardware trifft — wo man nur durch Messen erfährt, ob man richtig liegt.",
+  "about": [
+   "Bei <strong>AVL</strong> arbeite ich am gesamten ECM/HEVC-Applikations- und Validierungszyklus von Hybridfahrzeugen, von der ersten Vorgabe bis zur Kundenfreigabe. Aktuell verantworte ich On-Board-Monitoring und Energiemanagement-Strategien eines Hybrid-AWD-Projekts.",
+   "Am meisten reizt mich die Abstimmung der Aufteilung zwischen Verbrennungsmotor und E-Maschinen, die Steuerung des Batterieladezustands und das Schließen der Lücke zwischen Simulation und realem Verhalten — oft in Feldkampagnen unter extremen Höhen- und Klimabedingungen, wo sich der Antrieb ganz anders verhält als am Prüfstand.",
+   "Diese Disziplin ist übertragbar. Applikation, Verifikation und Validierung komplexer Systeme sind dasselbe Handwerk in Automotive, Motorsport, Luftfahrt oder Verteidigung: erwartetes Verhalten unter Last, mit Nachweis — genau diese Arbeit möchte ich weiterführen, überall dort, wo sie anspruchsvoll ist."
+  ],
+  "facts": [
+   [
+    "Standort",
+    "Valladolid, ES"
+   ],
+   [
+    "Rolle",
+    "Applikationsing."
+   ],
+   [
+    "Fokus",
+    "Hybrid & Verbrenner"
+   ],
+   [
+    "Reisen",
+    "Weltweit verfügbar"
+   ]
+  ],
+  "abCt": "Sprechen wir",
+  "pfTitle": "Projekte",
+  "pfSub": "Eine Auswahl an Ingenieurarbeit. Weitere Details folgen.",
+  "port": [
+   {
+    "name": "SOC-Prognose · XAI",
+    "tag": "Machine Learning",
+    "desc": "Ladezustandsprognose von Plug-in-Hybrid-Batterien mit erklärbarer KI — interpretierbare neuronale Netze für sicherheitsrelevante Anwendungen. Note 9,7/10.",
+    "st": "Abschlussarbeit",
+    "file": "img/TFG_Daniel_Rebolleda.pdf"
+   },
+   {
+    "ghost": 1,
+    "name": "In Kürze",
+    "desc": "Weitere Projekte folgen hier."
+   }
+  ],
+  "foot": "Valladolid, Spanien · umzugsbereit"
+ }
+}/*C_END*/;
+
+const $=id=>document.getElementById(id);
+let lang="en", view="cv";
+
+function buildEntryFlags(){
+  $("entryFlags").innerHTML=LANGS.map(([c,f,n])=>
+    `<button class="flag" data-l="${c}" aria-label="${n}"><span class="fg">${f}</span><span class="fl">${c.toUpperCase()}</span></button>`).join("");
+  $("entryFlags").querySelectorAll(".flag").forEach(b=>
+    b.addEventListener("click",()=>{lang=b.dataset.l;enter();}));
+  $("langMenu").innerHTML=LANGS.map(([c,f,n])=>
+    `<button data-l="${c}"><span class="fg">${f}</span>${n}</button>`).join("");
+  $("langMenu").querySelectorAll("button").forEach(b=>
+    b.addEventListener("click",()=>{lang=b.dataset.l;$("langMenu").classList.remove("open");render();}));
+}
+
+function enter(){
+  render();
+  $("entry").classList.add("hide");
+  $("app").classList.add("on");
+  try{localStorage.setItem("lang",lang);}catch(e){}
+}
+
+function render(){
+  const t=C[lang];
+  document.documentElement.lang=lang;
+  const [[,flag]]=[LANGS.filter(l=>l[0]===lang)];
+  $("langFlag").textContent=LANGS.find(l=>l[0]===lang)[1];
+  $("langCode").textContent=lang.toUpperCase();
+  try{localStorage.setItem("lang",lang);}catch(e){}
+
+  const nb=$("nav").children;
+  nb[0].textContent=t.nav[0]; nb[1].textContent=t.nav[1]; nb[2].textContent=t.nav[2];
+  nb[0].setAttribute("data-path","nav.0"); nb[1].setAttribute("data-path","nav.1"); nb[2].setAttribute("data-path","nav.2");
+  $("cb-cv").textContent=t.cbCv; $("cb-cv").setAttribute("data-path","cbCv");
+  $("cb-about").textContent=t.cbAbout; $("cb-about").setAttribute("data-path","cbAbout");
+  $("cb-portfolio").textContent=t.cbPortfolio; $("cb-portfolio").setAttribute("data-path","cbPortfolio");
+
+  // CV
+  $("cv-title").textContent=t.cvTitle; $("cv-title").setAttribute("data-path","cvTitle");
+  $("cv-e-xp").textContent=t.eXp; $("cv-e-xp").setAttribute("data-path","eXp");
+  $("cv-e-sk").textContent=t.eSk; $("cv-e-sk").setAttribute("data-path","eSk");
+  $("cv-e-ed").textContent=t.eEd; $("cv-e-ed").setAttribute("data-path","eEd");
+  $("cv-xp").innerHTML=t.xp.map((it,i)=>`<div class="xp-item">
+     <div class="xp-head">
+       <div class="logo-badge"><img src="${LOGOS.xp[i]||''}" alt=""></div>
+       <div>
+         <div class="xp-role" data-path="xp.${i}.role">${it.role}</div>
+         <div class="xp-meta"><span data-path="xp.${i}.org">${it.org}</span><span class="d" data-path="xp.${i}.dates">${it.dates}</span></div>
+       </div>
+     </div>
+     ${it.intro!==undefined?`<p class="xp-intro" data-path="xp.${i}.intro">${it.intro}</p>`:""}
+     <ul>${it.b.map((x,j)=>`<li data-path="xp.${i}.b.${j}">${x}</li>`).join("")}</ul></div>`).join("");
+  $("cv-skills").innerHTML=t.skills.map(([l,its],i)=>`<div class="srow">
+     <div class="slabel" data-path="skills.${i}.0">${l}</div><div class="tags">${its.map((v,j)=>`<span class="tag" data-path="skills.${i}.1.${j}">${v}</span>`).join("")}</div></div>`).join("");
+  $("cv-edu").innerHTML=t.edu.map(([tt,o,d,n],i)=>`<div class="edu-item">
+     <div class="logo-badge"><img src="${LOGOS.edu[i]||''}" alt=""></div>
+     <div><div class="edu-t" data-path="edu.${i}.0">${tt}</div><div class="edu-o" data-path="edu.${i}.1">${o}</div></div>
+     <div class="edu-d" data-path="edu.${i}.2">${d}</div><div class="edu-note" data-path="edu.${i}.3">${n}</div></div>`).join("");
+  $("cv-certs").innerHTML=t.certs.map(([k,v],i)=>`<div class="cert"><div class="logo-badge"><img src="${LOGOS.certs[i]||''}" alt=""></div><span class="k" data-path="certs.${i}.0">${k}</span><span data-path="certs.${i}.1">${v}</span></div>`).join("");
+
+  // ABOUT
+  $("ab-title").textContent=t.abTitle; $("ab-title").setAttribute("data-path","abTitle");
+  $("ab-lead").textContent=t.abLead; $("ab-lead").setAttribute("data-path","abLead");
+  $("ab-body").innerHTML=t.about.map((p,i)=>`<p data-path="about.${i}">${p}</p>`).join("");
+  $("ab-facts").innerHTML=t.facts.map(([k,v],i)=>`<div class="fact"><div class="k" data-path="facts.${i}.0">${k}</div><div class="v${i===3?' r':''}" data-path="facts.${i}.1">${v}</div></div>`).join("");
+  $("ab-ct").textContent=t.abCt; $("ab-ct").setAttribute("data-path","abCt");
+  renderPhoto();
+
+  // PORTFOLIO
+  $("pf-title").textContent=t.pfTitle; $("pf-title").setAttribute("data-path","pfTitle");
+  $("pf-sub").textContent=t.pfSub; $("pf-sub").setAttribute("data-path","pfSub");
+  $("pf-grid").innerHTML=t.port.map((p,i)=>p.ghost
+    ?`<div class="pcard ghost"><div class="pname">${p.name}</div><div class="pdesc">${p.desc}</div></div>`
+    :`<div class="pcard">
+        ${p.img?`<img class="pthumb" src="${p.img}" data-pidx="${i}">`:`<div class="pthumb-add" data-pidx="${i}">+ imagen</div>`}
+        <div class="ptop"><span class="pname" data-path="port.${i}.name">${p.name}</span><span class="ptag" data-path="port.${i}.tag">${p.tag}</span></div>
+        <div class="pdesc" data-path="port.${i}.desc">${p.desc}</div><div class="pstatus" data-path="port.${i}.st">${p.st}</div>
+        ${p.file?`<a class="plink" href="${p.file}" target="_blank" rel="noopener">▼ PDF</a>`:""}</div>`).join("");
+
+  $("foot-r").textContent=t.foot; $("foot-r").setAttribute("data-path","foot");
+  $("year").textContent=new Date().getFullYear();
+  applyEditMode();
+}
+
+function renderPhoto(){
+  const img=$("ab-photo"), btn=$("ab-photo-btn");
+  if(SITE.photo){ img.src=SITE.photo; img.style.display="block"; btn.textContent="Cambiar foto"; }
+  else{ img.style.display="none"; btn.textContent="+ Añadir foto"; }
+}
+
+/* ---------------- EDIT MODE ---------------- */
+let editMode=false, dirHandle=null, uploadTarget=null, saveTimer=null;
+
+function getPath(obj,path){return path.split(".").reduce((o,k)=>o==null?o:o[k],obj);}
+function setPath(obj,path,value){const keys=path.split(".");const last=keys.pop();const target=keys.reduce((o,k)=>o[k],obj);target[last]=value;}
+function stripHtml(html){const d=document.createElement("div");d.innerHTML=html;return d.textContent;}
+
+function applyEditMode(){
+  document.querySelectorAll("[data-path]").forEach(el=>{el.contentEditable=editMode;});
+}
+
+async function ensureDirHandle(){
+  if(dirHandle) return dirHandle;
+  if(!window.showDirectoryPicker){ $("saveStatus").textContent="Navegador no compatible"; return null; }
+  try{
+    dirHandle=await window.showDirectoryPicker({mode:"readwrite"});
+    $("saveStatus").textContent="Conectado ✓";
+  }catch(e){ $("saveStatus").textContent="Sin acceso"; }
+  return dirHandle;
+}
+
+function syncColorInputs(){
+  const cs=getComputedStyle(document.documentElement);
+  const get=v=>cs.getPropertyValue(v).trim();
+  $("cVarBg").value=get("--bg")||"#151515";
+  $("cVarInk").value=get("--ink")||"#ececec";
+  $("cVarMuted").value=get("--muted")||"#8b8b8b";
+  $("cVarPanel").value=get("--panel")||"#191919";
+}
+
+function scheduleSave(){
+  $("saveStatus").textContent="Editando…";
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveAll,700);
+}
+
+async function saveAll(){
+  if(!dirHandle){ $("saveStatus").textContent="Sin acceso a disco"; return; }
+  try{
+    $("saveStatus").textContent="Guardando…";
+    const fh=await dirHandle.getFileHandle("index.html");
+    const file=await fh.getFile();
+    let text=await file.text();
+
+    const cJson=JSON.stringify(C,null,1);
+    text=text.replace(/\/\*C_START\*\/[\s\S]*?\/\*C_END\*\//,"/*C_START*/"+cJson+"/*C_END*/");
+
+    const siteJson=JSON.stringify(SITE);
+    text=text.replace(/\/\*SITE_START\*\/[\s\S]*?\/\*SITE_END\*\//,"/*SITE_START*/"+siteJson+"/*SITE_END*/");
+
+    const cs=getComputedStyle(document.documentElement);
+    const varLines=["--bg","--bg2","--panel","--ink","--muted","--faint","--line","--line2"]
+      .map(v=>`  ${v}:${cs.getPropertyValue(v).trim()};`).join("\n");
+    text=text.replace(/\/\*VARS_START\*\/[\s\S]*?\/\*VARS_END\*\//,"/*VARS_START*/\n"+varLines+"\n  /*VARS_END*/");
+
+    const w=await fh.createWritable();
+    await w.write(text);
+    await w.close();
+    $("saveStatus").textContent="Guardado ✓ "+new Date().toLocaleTimeString();
+  }catch(err){
+    console.error(err);
+    $("saveStatus").textContent="Error al guardar";
+  }
+}
+
+async function handleUpload(file){
+  if(!file||!uploadTarget) return;
+  const dh=await ensureDirHandle();
+  if(!dh){ alert("No se pudo acceder a la carpeta del proyecto para guardar la imagen."); uploadTarget=null; return; }
+  try{
+    const imgDir=await dh.getDirectoryHandle("img",{create:true});
+    const safeName=Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9_.-]/g,"_");
+    const fh=await imgDir.getFileHandle(safeName,{create:true});
+    const w=await fh.createWritable();
+    await w.write(file);
+    await w.close();
+    const relPath="img/"+safeName;
+    if(uploadTarget.type==="photo"){
+      SITE.photo=relPath;
+      renderPhoto();
+    }else if(uploadTarget.type==="port"){
+      Object.values(C).forEach(langObj=>{
+        const item=langObj.port&&langObj.port[uploadTarget.idx];
+        if(item&&!item.ghost) item.img=relPath;
+      });
+      render();
+    }
+    await saveAll();
+  }catch(err){
+    console.error(err);
+    $("saveStatus").textContent="Error al subir imagen";
+  }
+  uploadTarget=null;
+}
+
+function show(v){
+  view=v;
+  document.querySelectorAll(".view").forEach(s=>s.classList.remove("show"));
+  $("view-"+v).classList.add("show");
+  [...$("nav").children].forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+  window.scrollTo({top:0,behavior:"instant"in window?"instant":"auto"});
+}
+
+$("nav").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
+$("goHome").addEventListener("click",()=>show("cv"));
+$("langBtn").addEventListener("click",e=>{e.stopPropagation();$("langMenu").classList.toggle("open");});
+document.addEventListener("click",()=>$("langMenu").classList.remove("open"));
+
+// Edit mode wiring
+if(!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ $("editToolbar").style.display="none"; }
+
+$("editToggle").addEventListener("click",async()=>{
+  editMode=!editMode;
+  document.body.classList.toggle("editing",editMode);
+  $("editToggle").classList.toggle("on",editMode);
+  $("editbar").classList.toggle("show",editMode);
+  applyEditMode();
+  if(editMode){
+    if(!dirHandle) await ensureDirHandle();
+    syncColorInputs();
+  }
+});
+
+document.addEventListener("blur",e=>{
+  if(!editMode) return;
+  const el=e.target;
+  if(!el.getAttribute) return;
+  const path=el.getAttribute("data-path");
+  if(!path) return;
+  const newVal=el.textContent;
+  const oldVal=getPath(C[lang],path);
+  const oldPlain=typeof oldVal==="string"?stripHtml(oldVal):oldVal;
+  if(newVal===oldPlain) return;
+  setPath(C[lang],path,newVal);
+  scheduleSave();
+},true);
+
+document.addEventListener("keydown",e=>{
+  if(!editMode) return;
+  if(e.key==="Enter"&&e.target.hasAttribute&&e.target.hasAttribute("data-path")){
+    e.preventDefault();
+    e.target.blur();
+  }
+});
+
+[["cVarBg","--bg"],["cVarInk","--ink"],["cVarMuted","--muted"],["cVarPanel","--panel"]].forEach(([id,varName])=>{
+  $(id).addEventListener("input",()=>document.documentElement.style.setProperty(varName,$(id).value));
+  $(id).addEventListener("change",()=>scheduleSave());
+});
+
+$("ab-photo-btn").addEventListener("click",()=>{
+  if(!editMode) return;
+  uploadTarget={type:"photo"};
+  $("fileInput").click();
+});
+
+$("pf-grid").addEventListener("click",e=>{
+  const t=e.target.closest("[data-pidx]");
+  if(!t||!editMode) return;
+  uploadTarget={type:"port",idx:Number(t.dataset.pidx)};
+  $("fileInput").click();
+});
+
+$("fileInput").addEventListener("change",e=>{
+  const file=e.target.files[0];
+  e.target.value="";
+  handleUpload(file);
+});
+
+buildEntryFlags();
+try{
+  const nav=(navigator.language||"en").slice(0,2);
+  if(C[nav])lang=nav;
+  const saved=localStorage.getItem("lang");
+  if(saved&&C[saved])lang=saved;
+}catch(e){}
+render();
+</script>
+</body>
+</html>
