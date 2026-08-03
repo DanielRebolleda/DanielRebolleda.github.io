@@ -45,7 +45,8 @@ a{color:inherit;text-decoration:none}
 .flag{width:90px;background:none;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;
   gap:8px;padding:16px 0 12px;cursor:pointer;transition:.15s}
 .flag:hover,.flag:focus-visible{border-color:var(--ink);transform:translateY(-3px);outline:none}
-.flag .fg{font-size:28px;line-height:1}
+.flag .fg{display:block}
+.flag .fg svg{display:block;width:36px;height:auto;border:1px solid var(--line2)}
 .flag .fl{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
 .flag:hover .fl{color:var(--ink)}
 .entry-plate{font-family:var(--mono);font-size:10px;color:var(--faint);padding:22px;text-align:center;letter-spacing:.16em}
@@ -74,7 +75,10 @@ header{position:sticky;top:0;z-index:40;background:rgba(21,21,21,.93);backdrop-f
   color:var(--ink);font-family:var(--body);font-size:15px;padding:10px 14px;cursor:pointer;text-align:left;border-bottom:1px solid var(--line)}
 .langmenu button:last-child{border-bottom:none}
 .langmenu button:hover{background:var(--panel)}
-.langmenu .fg{font-size:17px}
+.langmenu .fg{display:inline-flex}
+.langmenu .fg svg{width:22px;height:auto;border:1px solid var(--line2)}
+#langFlag{display:inline-flex;vertical-align:-4px}
+#langFlag svg{width:18px;height:auto;border:1px solid var(--line2)}
 
 main{flex:1;max-width:960px;margin:0 auto;width:100%;padding:0 24px}
 .view{display:none;animation:fade .35s ease}
@@ -113,7 +117,7 @@ main{flex:1;max-width:960px;margin:0 auto;width:100%;padding:0 24px}
 .xp-role{font-family:var(--head);font-weight:600;font-size:20px;text-transform:uppercase;line-height:1.1}
 .xp-meta{font-family:var(--mono);font-size:12px;color:var(--muted);margin:6px 0 14px;display:flex;flex-wrap:wrap;gap:5px 16px}
 .xp-meta .d{color:var(--ink)}
-.xp-intro{color:#bdbdbd;font-size:16px;line-height:1.5;margin-bottom:14px;max-width:680px}
+.xp-intro{color:#bdbdbd;font-size:17.5px;line-height:1.5;margin-bottom:14px;max-width:680px}
 .xp-item ul{list-style:none;display:grid;gap:8px}
 .xp-item li{position:relative;padding-left:18px;color:#c9c9c9}
 .xp-item li::before{content:"–";position:absolute;left:0;color:var(--faint)}
@@ -230,7 +234,7 @@ body.editing .pthumb-add{display:block}
         <button data-view="portfolio">Portfolio</button>
       </nav>
       <div class="hlang">
-        <button id="langBtn"><span id="langFlag">🇬🇧</span><span id="langCode">EN</span> ▾</button>
+        <button id="langBtn"><span id="langFlag"></span><span id="langCode">EN</span> ▾</button>
         <div class="langmenu" id="langMenu"></div>
       </div>
     </div>
@@ -297,6 +301,13 @@ body.editing .pthumb-add{display:block}
 
 <script>
 const LANGS=[["en","🇬🇧","English"],["es","🇪🇸","Español"],["fr","🇫🇷","Français"],["it","🇮🇹","Italiano"],["de","🇩🇪","Deutsch"]];
+const FLAGS={
+ en:'<svg viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#00247d"/><path d="M0 0L28 20M28 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0L28 20M28 0L0 20" stroke="#cf142b" stroke-width="1.6"/><path d="M14 0V20M0 10H28" stroke="#fff" stroke-width="6"/><path d="M14 0V20M0 10H28" stroke="#cf142b" stroke-width="3"/></svg>',
+ es:'<svg viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#c60b1e"/><rect y="5" width="28" height="10" fill="#ffc400"/></svg>',
+ fr:'<svg viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#fff"/><rect width="9.34" height="20" fill="#0055a4"/><rect x="18.66" width="9.34" height="20" fill="#ef4135"/></svg>',
+ it:'<svg viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#fff"/><rect width="9.34" height="20" fill="#009246"/><rect x="18.66" width="9.34" height="20" fill="#ce2b37"/></svg>',
+ de:'<svg viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#ffce00"/><rect width="28" height="13.34" fill="#dd0000"/><rect width="28" height="6.67" fill="#000"/></svg>'
+};
 
 let SITE=/*SITE_START*/{"photo":"img/profile.jpg"}/*SITE_END*/;
 
@@ -325,13 +336,16 @@ const C=/*C_START*/{
     "role": "Hybrid Powertrain Calibration Engineer",
     "org": "AVL · Valladolid, Spain",
     "dates": "Jun 2025 – Present",
+    "intro": "Calibration and validation of hybrid powertrain control strategies, balancing fuel consumption, emissions, drivability and performance across the full development cycle — from simulation and the test bench to the vehicle, the track and field trials in extreme conditions.",
     "b": [
-     "Calibrate combustion-engine functions within the hybrid system — air path, combustion, thermal management, aftertreatment — under performance, emissions and drivability targets.",
-     "Own the full ECM/HEVC calibration and validation process, from calibration proposals through to release.",
-     "Manage complete test campaigns (BAC, BAR, BRAP): planning, vehicle preparation and instrumentation, execution and analysis.",
-     "Derive ICE–electric torque-split and battery SOC strategies, balancing consumption against performance and drivability.",
-     "Run dyno and on-track measurement campaigns to verify calibration and software changes before sign-off.",
-     "Operate autonomously on remote field campaigns across altitude and climate extremes."
+     "Calibrate the internal combustion engine's functions within the hybrid system: air path, combustion, thermal management and exhaust aftertreatment. Meet emissions targets while keeping the engine's contribution efficient across all operating modes.",
+     "Optimise energy management between the internal combustion engine and the high-voltage electric machines, deriving torque-split strategies that sustain consumption targets without sacrificing performance.",
+     "Calibrate battery state-of-charge (SoC) management and automatic gearbox shift control, tuning the efficiency-versus-response trade-off that determines how the car actually feels to drive.",
+     "Run test campaigns across different altitude and climate environments, calibrating and validating powertrain behaviour where ambient temperature and air density push the system outside its nominal operating envelope.",
+     "Run measurement campaigns on the chassis dyno and on track, acquiring and analysing data to verify proposed calibration and software changes ahead of final sign-off.",
+     "Validate control software functionality in simulation ahead of physical testing, cutting the bench time spent on strategies that were never going to work.",
+     "Work directly with the client's engineering teams and with internal software, simulation and test groups, presenting calibration results and defending proposed changes in technical reviews.",
+     "Operate autonomously on remote field campaigns, planning instrumentation and test schedules and making calibration decisions on site."
     ]
    },
    {
@@ -644,13 +658,16 @@ const C=/*C_START*/{
     "role": "Ingénieur Calibration GMP Hybride",
     "org": "AVL · Valladolid, Espagne",
     "dates": "Juin 2025 – Présent",
+    "intro": "Calibration et validation de stratégies de contrôle du groupe motopropulseur hybride, en équilibrant consommation de carburant, émissions, agrément de conduite et performance sur l'ensemble du cycle de développement — de la simulation et du banc d'essai jusqu'au véhicule, à la piste et aux essais terrain en conditions extrêmes.",
     "b": [
-     "Je calibre les fonctions du moteur thermique dans le système hybride — air path, combustion, gestion thermique, post-traitement — selon les objectifs de performance, d'émissions et d'agrément.",
-     "Je pilote l'ensemble du processus de calibration et validation ECM/HEVC, des propositions jusqu'à la livraison.",
-     "Je gère des campagnes d'essais complètes (BAC, BAR, BRAP) : planification, préparation et instrumentation du véhicule, exécution et analyse.",
-     "Je définis les stratégies de répartition de couple thermique–électrique et de SOC batterie, en équilibrant consommation, performance et agrément.",
-     "Je mène des campagnes de mesure au banc et en piste pour valider les évolutions avant livraison.",
-     "Je travaille en autonomie sur des campagnes terrain distantes, en altitude et climats extrêmes."
+     "Je calibre les fonctions du moteur thermique au sein du système hybride : air path, combustion, gestion thermique et post-traitement des gaz. J'atteins les objectifs d'émissions tout en maintenant la contribution du moteur efficace dans tous les modes de fonctionnement.",
+     "J'optimise la gestion énergétique entre le moteur thermique et les machines électriques haute tension, en définissant des stratégies de répartition de couple qui respectent les objectifs de consommation sans sacrifier la performance.",
+     "Je calibre la gestion de l'état de charge (SoC) de la batterie et le pilotage des passages de vitesses automatiques, en ajustant le compromis efficacité/réactivité qui détermine le ressenti réel du véhicule.",
+     "Je mène des campagnes d'essais dans différents environnements d'altitude et de climat, en calibrant et validant le comportement du groupe motopropulseur là où la température ambiante et la densité de l'air poussent le système hors de son enveloppe de fonctionnement nominale.",
+     "Je mène des campagnes de mesure au banc à rouleaux et sur piste, en acquérant et analysant les données pour vérifier les évolutions de calibration et de logiciel proposées avant la validation finale.",
+     "Je valide la fonctionnalité du logiciel de contrôle en simulation avant les essais physiques, réduisant le temps de banc consacré à des stratégies qui n'auraient jamais fonctionné.",
+     "Je travaille directement avec les équipes d'ingénierie du client ainsi qu'avec les équipes internes logiciel, simulation et essais, en présentant les résultats de calibration et en défendant les évolutions proposées lors des revues techniques.",
+     "Je travaille en autonomie sur des campagnes terrain distantes, en planifiant l'instrumentation et les plannings d'essais et en prenant les décisions de calibration sur place."
     ]
    },
    {
@@ -802,13 +819,16 @@ const C=/*C_START*/{
     "role": "Ingegnere Calibrazione Powertrain Ibrido",
     "org": "AVL · Valladolid, Spagna",
     "dates": "Giu 2025 – Presente",
+    "intro": "Calibrazione e validazione di strategie di controllo per sistemi propulsori ibridi, bilanciando consumo di carburante, emissioni, guidabilità e prestazioni lungo l'intero ciclo di sviluppo — dalla simulazione e dal banco prova al veicolo, alla pista e alle prove su strada in condizioni estreme.",
     "b": [
-     "Calibro le funzioni del motore termico nel sistema ibrido — air path, combustione, gestione termica, post-trattamento — secondo obiettivi di prestazioni, emissioni e guidabilità.",
-     "Gestisco l'intero processo di calibrazione e validazione ECM/HEVC, dalle proposte fino al rilascio.",
-     "Conduco campagne di test complete (BAC, BAR, BRAP): pianificazione, preparazione e strumentazione del veicolo, esecuzione e analisi.",
-     "Definisco strategie di ripartizione di coppia termico–elettrico e di SOC batteria, bilanciando consumi, prestazioni e guidabilità.",
-     "Eseguo campagne di misura al banco e in pista per verificare le modifiche prima dell'approvazione.",
-     "Lavoro in autonomia in campagne sul campo remote, in altitudine e climi estremi."
+     "Calibro le funzioni del motore a combustione interna all'interno del sistema ibrido: percorso aria, combustione, gestione termica e post-trattamento gas di scarico. Rispetto gli obiettivi di emissioni mantenendo efficiente il contributo del motore in tutte le modalità operative.",
+     "Ottimizzo la gestione energetica tra il motore a combustione interna e le macchine elettriche ad alta tensione, definendo strategie di ripartizione della coppia che sostengono gli obiettivi di consumo senza sacrificare le prestazioni.",
+     "Calibro la gestione dello stato di carica (SoC) della batteria e il controllo dei cambi automatici, regolando il compromesso efficienza-risposta che determina come l'auto si sente realmente da guidare.",
+     "Conduco campagne di prova in ambienti di diversa altitudine e clima, calibrando e validando il comportamento del sistema propulsore dove temperatura ambiente e densità dell'aria spingono il sistema fuori dal suo inviluppo operativo nominale.",
+     "Conduco campagne di misura al banco a rulli e in pista, acquisendo e analizzando dati per verificare le modifiche di calibrazione e software proposte prima dell'approvazione finale.",
+     "Valido la funzionalità del software di controllo in simulazione prima delle prove fisiche, riducendo il tempo al banco dedicato a strategie che non avrebbero mai funzionato.",
+     "Lavoro direttamente con i team di ingegneria del cliente e con i gruppi interni di software, simulazione e collaudo, presentando i risultati di calibrazione e difendendo le modifiche proposte nelle revisioni tecniche.",
+     "Opero in autonomia in campagne sul campo remote, pianificando strumentazione e calendari di prova e prendendo decisioni di calibrazione sul posto."
     ]
    },
    {
@@ -960,13 +980,16 @@ const C=/*C_START*/{
     "role": "Applikationsingenieur Hybrid-Antriebsstrang",
     "org": "AVL · Valladolid, Spanien",
     "dates": "Jun 2025 – heute",
+    "intro": "Kalibrierung und Validierung von Regelstrategien für Hybridantriebe, mit Abwägung von Kraftstoffverbrauch, Emissionen, Fahrbarkeit und Leistung über den gesamten Entwicklungszyklus — von der Simulation und dem Prüfstand bis zum Fahrzeug, der Strecke und Feldversuchen unter extremen Bedingungen.",
     "b": [
-     "Applikation der Verbrennungsmotor-Funktionen im Hybridsystem — Air Path, Verbrennung, Thermomanagement, Abgasnachbehandlung — nach Leistungs-, Emissions- und Fahrbarkeitszielen.",
-     "Verantwortung für den gesamten ECM/HEVC-Applikations- und Validierungsprozess, von Vorgaben bis zum Release.",
-     "Steuerung kompletter Testkampagnen (BAC, BAR, BRAP): Planung, Fahrzeugvorbereitung und Instrumentierung, Durchführung und Auswertung.",
-     "Ableitung von Verbrenner–E-Maschine-Momentenaufteilung und Batterie-SOC-Strategien, mit Abwägung von Verbrauch, Leistung und Fahrbarkeit.",
-     "Durchführung von Messkampagnen am Prüfstand und auf der Strecke zur Absicherung vor der Freigabe.",
-     "Eigenständige Arbeit in entfernten Feldkampagnen unter extremen Höhen- und Klimabedingungen."
+     "Applikation der Verbrennungsmotor-Funktionen innerhalb des Hybridsystems: Luftpfad, Verbrennung, Thermomanagement und Abgasnachbehandlung. Einhaltung der Emissionsziele bei gleichzeitig effizientem Beitrag des Verbrennungsmotors in allen Betriebsarten.",
+     "Optimierung des Energiemanagements zwischen Verbrennungsmotor und Hochvolt-E-Maschinen durch Ableitung von Momentenaufteilungsstrategien, die die Verbrauchsziele erfüllen, ohne die Leistung zu beeinträchtigen.",
+     "Applikation des Batterie-Ladezustandsmanagements (SoC) und der automatischen Schaltsteuerung, mit Abstimmung des Kompromisses zwischen Effizienz und Ansprechverhalten, der das tatsächliche Fahrgefühl bestimmt.",
+     "Durchführung von Testkampagnen in unterschiedlichen Höhen- und Klimabedingungen, Applikation und Validierung des Antriebsstrangverhaltens dort, wo Umgebungstemperatur und Luftdichte das System außerhalb seiner nominalen Betriebshüllkurve bringen.",
+     "Durchführung von Messkampagnen am Rollenprüfstand und auf der Strecke, Erfassung und Auswertung von Daten zur Verifikation vorgeschlagener Kalibrierungs- und Softwareänderungen vor der endgültigen Freigabe.",
+     "Validierung der Funktionalität der Regelsoftware in der Simulation vor physischen Tests, wodurch Prüfstandszeit für Strategien eingespart wird, die ohnehin nicht funktioniert hätten.",
+     "Direkte Zusammenarbeit mit den Entwicklungsteams des Kunden sowie internen Software-, Simulations- und Testgruppen, Präsentation von Kalibrierungsergebnissen und Verteidigung vorgeschlagener Änderungen in technischen Reviews.",
+     "Eigenständige Arbeit in entfernten Feldkampagnen, Planung von Instrumentierung und Testplänen sowie Treffen von Kalibrierungsentscheidungen vor Ort."
     ]
    },
    {
@@ -1107,11 +1130,11 @@ let lang="en", view="cv";
 
 function buildEntryFlags(){
   $("entryFlags").innerHTML=LANGS.map(([c,f,n])=>
-    `<button class="flag" data-l="${c}" aria-label="${n}"><span class="fg">${f}</span><span class="fl">${c.toUpperCase()}</span></button>`).join("");
+    `<button class="flag" data-l="${c}" aria-label="${n}"><span class="fg">${FLAGS[c]}</span><span class="fl">${c.toUpperCase()}</span></button>`).join("");
   $("entryFlags").querySelectorAll(".flag").forEach(b=>
     b.addEventListener("click",()=>{lang=b.dataset.l;enter();}));
   $("langMenu").innerHTML=LANGS.map(([c,f,n])=>
-    `<button data-l="${c}"><span class="fg">${f}</span>${n}</button>`).join("");
+    `<button data-l="${c}"><span class="fg">${FLAGS[c]}</span>${n}</button>`).join("");
   $("langMenu").querySelectorAll("button").forEach(b=>
     b.addEventListener("click",()=>{lang=b.dataset.l;$("langMenu").classList.remove("open");render();}));
 }
@@ -1127,7 +1150,7 @@ function render(){
   const t=C[lang];
   document.documentElement.lang=lang;
   const [[,flag]]=[LANGS.filter(l=>l[0]===lang)];
-  $("langFlag").textContent=LANGS.find(l=>l[0]===lang)[1];
+  $("langFlag").innerHTML=FLAGS[lang];
   $("langCode").textContent=lang.toUpperCase();
   try{localStorage.setItem("lang",lang);}catch(e){}
 
