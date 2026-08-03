@@ -123,7 +123,7 @@ body.editing .about p:empty{display:block;min-height:1.4em;opacity:.4;border:1px
 .tag+.tag::before{content:"  ·  ";color:var(--faint)}
 .edu-item{display:grid;grid-template-columns:46px 1fr auto;gap:3px 16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
 .edu-item:last-child{border-bottom:none}
-.edu-item .logo-badge{grid-row:1/3}
+.edu-item .logo-badge{grid-row:1/3;align-self:start}
 .edu-t{font-family:var(--head);font-weight:600;font-size:17px;text-transform:uppercase}
 .edu-o{font-size:15px;color:var(--muted)}
 .edu-d{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;text-align:right}
@@ -149,6 +149,8 @@ body.editing .edu-note:empty{display:block;min-height:1.4em;opacity:.4;margin-to
 .plink{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);
   border:1px solid var(--line2);padding:8px 12px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start}
 .plink:hover{border-color:var(--ink)}
+.pf-photos{display:flex;gap:8px;margin-top:4px}
+.pf-photos img{width:50%;aspect-ratio:4/3;object-fit:contain;background:var(--panel);border:1px solid var(--line)}
 
 /* CONTACT */
 .contact{margin:46px 0 10px;padding:26px 0 0;border-top:1px solid var(--line)}
@@ -219,7 +221,7 @@ body.editing .pthumb-add{display:block}
 <div id="app">
   <header>
     <div class="hbar">
-      <div class="mark" id="goHome">DANIEL REBOLLEDA HERNÁNDEZ</div>
+      <div class="mark" id="goHome">DANIEL REBOLLEDA HERNANDEZ</div>
       <nav class="hnav" id="nav">
         <button data-view="cv" class="active">CV</button>
         <button data-view="about">About</button>
@@ -266,7 +268,6 @@ body.editing .pthumb-add{display:block}
     <!-- PORTFOLIO -->
     <section class="view" id="view-portfolio">
       <h1 class="vtitle" id="pf-title"></h1>
-      <p class="lead" id="pf-sub"></p>
       <div class="pgrid" id="pf-grid"></div>
     </section>
   </main>
@@ -308,6 +309,7 @@ const XPPHOTOS=[
  [{src:"img/xp/avl-1.jpg",pos:"center 78%"},{src:"img/xp/avl-2.jpg",pos:"center 88%"}],
  [{src:"img/xp/etta-1.jpg",pos:"center"},{src:"img/xp/etta-2.jpg",pos:"center 40%"}]
 ];
+const PFPHOTOS=[["img/portfolio/tfg-shap.jpg","img/portfolio/tfg-lstm.jpg"]];
 
 const C=/*C_START*/{
  "en": {
@@ -454,7 +456,8 @@ const C=/*C_START*/{
    {
     "ghost": 1,
     "name": "More to come",
-    "desc": "Further projects will be added here."
+    "desc": "Further projects will be added here.",
+    "sub": "In development"
    }
   ],
   "foot": "Valladolid, Spain · open to relocation"
@@ -603,7 +606,8 @@ const C=/*C_START*/{
    {
     "ghost": 1,
     "name": "Próximamente",
-    "desc": "Aquí se irán añadiendo más proyectos."
+    "desc": "Aquí se irán añadiendo más proyectos.",
+    "sub": "En desarrollo"
    }
   ],
   "foot": "Valladolid, España · disponible para reubicación"
@@ -752,7 +756,8 @@ const C=/*C_START*/{
    {
     "ghost": 1,
     "name": "À venir",
-    "desc": "D'autres projets seront ajoutés ici."
+    "desc": "D'autres projets seront ajoutés ici.",
+    "sub": "En développement"
    }
   ],
   "foot": "Valladolid, Espagne · ouvert à la mobilité"
@@ -901,7 +906,8 @@ const C=/*C_START*/{
    {
     "ghost": 1,
     "name": "In arrivo",
-    "desc": "Altri progetti verranno aggiunti qui."
+    "desc": "Altri progetti verranno aggiunti qui.",
+    "sub": "In sviluppo"
    }
   ],
   "foot": "Valladolid, Spagna · disponibile al trasferimento"
@@ -1050,7 +1056,8 @@ const C=/*C_START*/{
    {
     "ghost": 1,
     "name": "In Kürze",
-    "desc": "Weitere Projekte folgen hier."
+    "desc": "Weitere Projekte folgen hier.",
+    "sub": "In Entwicklung"
    }
   ],
   "foot": "Valladolid, Spanien · umzugsbereit"
@@ -1124,14 +1131,15 @@ function render(){
 
   // PORTFOLIO
   $("pf-title").textContent=t.pfTitle; $("pf-title").setAttribute("data-path","pfTitle");
-  $("pf-sub").textContent=t.pfSub; $("pf-sub").setAttribute("data-path","pfSub");
   $("pf-grid").innerHTML=t.port.map((p,i)=>p.ghost
-    ?`<div class="pcard ghost"><div class="pname">${p.name}</div><div class="pdesc">${p.desc}</div></div>`
+    ?`<div class="pcard ghost"><div class="pname">${p.name}</div><div class="pdesc">${p.desc}</div>${p.sub?`<div class="pstatus">${p.sub}</div>`:""}</div>`
     :`<div class="pcard">
         ${p.img?`<img class="pthumb" src="${p.img}" data-pidx="${i}">`:`<div class="pthumb-add" data-pidx="${i}">+ imagen</div>`}
         <div class="ptop"><span class="pname" data-path="port.${i}.name">${p.name}</span><span class="ptag" data-path="port.${i}.tag">${p.tag}</span></div>
         <div class="pdesc" data-path="port.${i}.desc">${p.desc}</div><div class="pstatus" data-path="port.${i}.st">${p.st}</div>
-        ${p.file?`<a class="plink" href="${p.file}" target="_blank" rel="noopener">▼ PDF</a>`:""}</div>`).join("");
+        ${p.file?`<a class="plink" href="${p.file}" target="_blank" rel="noopener">▼ PDF</a>`:""}
+        ${PFPHOTOS[i]?`<div class="pf-photos">${PFPHOTOS[i].map(src=>`<img src="${src}" alt="" loading="lazy">`).join("")}</div>`:""}
+        </div>`).join("");
 
   $("foot-r").textContent=t.foot; $("foot-r").setAttribute("data-path","foot");
   $("year").textContent=new Date().getFullYear();
