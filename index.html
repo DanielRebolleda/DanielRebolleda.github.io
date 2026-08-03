@@ -37,7 +37,6 @@ a{color:inherit;text-decoration:none}
 .stencil{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--muted);margin-bottom:18px;text-transform:uppercase}
 #entry h1{font-family:var(--head);font-weight:600;text-transform:uppercase;font-size:clamp(38px,8.4vw,72px);
   line-height:.94;letter-spacing:.01em;margin-bottom:12px}
-.entry-sub{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.05em;margin-bottom:52px}
 .pick{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);
   display:flex;align-items:center;gap:14px;margin-bottom:24px}
 .pick::before,.pick::after{content:"";height:1px;width:40px;background:var(--line)}
@@ -85,10 +84,7 @@ main{flex:1;max-width:960px;margin:0 auto;width:100%;padding:0 24px}
 .view.show{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-.crumb{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.16em;text-transform:uppercase;
-  padding:34px 0 0;display:flex;align-items:center;gap:9px}
-.crumb .r{color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:1px}
-.vtitle{font-family:var(--head);font-weight:600;font-size:clamp(30px,5.6vw,46px);text-transform:uppercase;
+.vtitle{padding-top:34px;font-family:var(--head);font-weight:600;font-size:clamp(30px,5.6vw,46px);text-transform:uppercase;
   line-height:1;margin:12px 0 34px;letter-spacing:.01em}
 
 .eye{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
@@ -100,12 +96,8 @@ main{flex:1;max-width:960px;margin:0 auto;width:100%;padding:0 24px}
 .lead{font-family:var(--head);font-weight:400;font-size:clamp(19px,3vw,25px);line-height:1.35;max-width:760px;margin-bottom:28px}
 .about p{max-width:700px;color:#c9c9c9;margin-bottom:16px;font-size:18px}
 .about p strong{color:var(--ink);font-weight:600}
-.facts{display:flex;flex-wrap:wrap;margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.fact{flex:1 1 150px;padding:18px 20px 18px 0;margin-right:20px}
-.fact+.fact{border-left:1px solid var(--line);padding-left:20px}
-.fact .k{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
-.fact .v{font-family:var(--head);font-weight:500;font-size:16px;text-transform:uppercase}
-.fact .v.r{color:var(--ink)}
+.about p:empty{display:none;margin:0}
+body.editing .about p:empty{display:block;min-height:1.4em;opacity:.4;border:1px dashed var(--line2)}
 
 /* CV */
 .logo-badge{width:46px;height:46px;flex:none;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;padding:6px}
@@ -119,6 +111,8 @@ main{flex:1;max-width:960px;margin:0 auto;width:100%;padding:0 24px}
 .xp-meta .d{color:var(--ink)}
 .xp-intro{color:#bdbdbd;font-size:17.5px;line-height:1.5;margin-bottom:14px;max-width:680px}
 .xp-item ul{list-style:none;display:grid;gap:8px}
+.xp-photos{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.xp-photos img{width:calc(50% - 5px);min-width:180px;flex:1 1 220px;height:240px;object-fit:cover;border:1px solid var(--line);filter:grayscale(.15) contrast(1.03)}
 .xp-item li{position:relative;padding-left:18px;color:#c9c9c9}
 .xp-item li::before{content:"–";position:absolute;left:0;color:var(--faint)}
 .skills{display:grid;gap:22px}
@@ -174,7 +168,6 @@ footer{border-top:1px solid var(--line);margin-top:52px}
   .hnav{gap:14px}.hnav button{font-size:12px}
   .edu-item{grid-template-columns:1fr}.edu-d{text-align:left}
   .hbar{padding:12px 16px}main{padding:0 16px}.mark{font-size:13px}
-  .fact{flex:1 1 45%}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
@@ -215,8 +208,7 @@ body.editing .pthumb-add{display:block}
 <div id="entry">
   <div class="entry-in">
     <div class="stencil">engineering portfolio — 2026</div>
-    <h1>Daniel<br>Rebolleda</h1>
-    <div class="entry-sub">powertrain calibration · hybrid &amp; ICE · Valladolid</div>
+    <h1>Daniel<br>Rebolleda<br>Hernandez</h1>
     <div class="pick" id="pickTxt">select language</div>
     <div class="flags" id="entryFlags"></div>
   </div>
@@ -227,7 +219,7 @@ body.editing .pthumb-add{display:block}
 <div id="app">
   <header>
     <div class="hbar">
-      <div class="mark" id="goHome">DANIEL REBOLLEDA</div>
+      <div class="mark" id="goHome">DANIEL REBOLLEDA HERNÁNDEZ</div>
       <nav class="hnav" id="nav">
         <button data-view="cv" class="active">CV</button>
         <button data-view="about">About</button>
@@ -243,7 +235,6 @@ body.editing .pthumb-add{display:block}
   <main>
     <!-- CV -->
     <section class="view show" id="view-cv">
-      <div class="crumb"><span class="r">01</span> <span id="cb-cv"></span></div>
       <h1 class="vtitle" id="cv-title"></h1>
       <div class="eye"><span class="n">//</span><span id="cv-e-xp"></span></div>
       <div id="cv-xp"></div>
@@ -256,7 +247,6 @@ body.editing .pthumb-add{display:block}
 
     <!-- ABOUT -->
     <section class="view" id="view-about">
-      <div class="crumb"><span class="r">02</span> <span id="cb-about"></span></div>
       <h1 class="vtitle" id="ab-title"></h1>
       <div class="ph-wrap" id="ab-photo-wrap">
         <img id="ab-photo" alt="" style="display:none">
@@ -264,7 +254,6 @@ body.editing .pthumb-add{display:block}
       </div>
       <p class="lead" id="ab-lead"></p>
       <div class="about" id="ab-body"></div>
-      <div class="facts" id="ab-facts"></div>
       <div class="contact">
         <div class="ct" id="ab-ct"></div>
         <div class="crow">
@@ -276,7 +265,6 @@ body.editing .pthumb-add{display:block}
 
     <!-- PORTFOLIO -->
     <section class="view" id="view-portfolio">
-      <div class="crumb"><span class="r">03</span> <span id="cb-portfolio"></span></div>
       <h1 class="vtitle" id="pf-title"></h1>
       <p class="lead" id="pf-sub"></p>
       <div class="pgrid" id="pf-grid"></div>
@@ -316,11 +304,15 @@ const LOGOS={
  edu:["img/logos/uned.jpg","img/logos/aarhus.svg","img/logos/uva.svg"],
  certs:["img/logos/tudelft.svg","img/logos/race.svg","img/logos/michelin.svg","img/logos/cambridge.svg"]
 };
+const XPPHOTOS=[
+ [{src:"img/xp/avl-1.jpg",pos:"center 78%"},{src:"img/xp/avl-2.jpg",pos:"center 88%"}],
+ [{src:"img/xp/etta-1.jpg",pos:"center"},{src:"img/xp/etta-2.jpg",pos:"center 40%"}]
+];
 
 const C=/*C_START*/{
  "en": {
   "nav": [
-   "CV",
+   "Curriculum",
    "About",
    "Portfolio"
   ],
@@ -353,7 +345,8 @@ const C=/*C_START*/{
     "org": "Etta Projects NGO · Bolivia",
     "dates": "Jul – Aug 2024",
     "b": [
-     "P.A.C.I.D. scholarship — engineering support for development projects in a resource-limited, international environment."
+     "P.A.C.I.D. scholarship — engineering support for development projects in a resource-limited, international environment.",
+     "Conceived, developed and optimised hydroponic and aquaponic systems using common materials, for the self-sufficiency of isolated communities."
     ]
    }
   ],
@@ -381,6 +374,10 @@ const C=/*C_START*/{
      "AVL Concerto",
      "AVL Creta",
      "DDT2000",
+     "MoTeC i2/M1",
+     "Bosch Motorsport",
+     "Vector CANape",
+     "Vector CANalyzer",
      "MATLAB / Simulink",
      "Python",
      "TensorFlow / Keras",
@@ -440,25 +437,8 @@ const C=/*C_START*/{
   "about": [
    "At <strong>AVL</strong> I work across the full ECM/HEVC calibration and validation cycle for hybrid vehicles, from the first calibration proposal to customer sign-off. My current work covers on-board monitoring and energy-management laws for a hybrid AWD project.",
    "The part I care about most is tuning the split between the combustion engine and the electric machines, managing battery state of charge, and closing the loop between what simulation predicted and what the car actually does — often on remote field campaigns across altitude and climate extremes, where the powertrain behaves nothing like it did on the bench.",
-   "This discipline travels well. Calibrating, verifying and validating complex systems is the same craft in automotive, motorsport, aerospace or defence: make them behave as intended, under load, with evidence — and that's the work I want to keep doing, wherever it's demanding."
-  ],
-  "facts": [
-   [
-    "Base",
-    "Valladolid, ES"
-   ],
-   [
-    "Role",
-    "Calibration Eng."
-   ],
-   [
-    "Focus",
-    "Hybrid & ICE"
-   ],
-   [
-    "Travel",
-    "Available worldwide"
-   ]
+   "This discipline travels well. Calibrating, verifying and validating complex systems is the same craft in automotive, motorsport, aerospace or defence: make them behave as intended, under load, with evidence — and that's the work I want to keep doing, wherever it's demanding.",
+   ""
   ],
   "abCt": "Let's talk",
   "pfTitle": "Projects",
@@ -481,7 +461,7 @@ const C=/*C_START*/{
  },
  "es": {
   "nav": [
-   "CV",
+   "Currículum",
    "Sobre mí",
    "Portfolio"
   ],
@@ -514,7 +494,8 @@ const C=/*C_START*/{
     "org": "ONG Etta Projects · Bolivia",
     "dates": "Jul – Ago 2024",
     "b": [
-     "Beca P.A.C.I.D. — apoyo de ingeniería a proyectos de desarrollo en un entorno internacional con recursos limitados."
+     "Beca P.A.C.I.D. — apoyo de ingeniería a proyectos de desarrollo en un entorno internacional con recursos limitados.",
+     "Concepción, desarrollo y optimización de sistemas de hidroponía y acuaponía con materiales comunes para el autoabastecimiento de poblaciones aisladas."
     ]
    }
   ],
@@ -542,6 +523,10 @@ const C=/*C_START*/{
      "AVL Concerto",
      "AVL Creta",
      "DDT2000",
+     "MoTeC i2/M1",
+     "Bosch Motorsport",
+     "Vector CANape",
+     "Vector CANalyzer",
      "MATLAB / Simulink",
      "Python",
      "TensorFlow / Keras",
@@ -601,25 +586,8 @@ const C=/*C_START*/{
   "about": [
    "En <strong>AVL</strong> trabajo en todo el ciclo de calibración y validación ECM/HEVC de vehículos híbridos, desde la primera propuesta hasta la aprobación del cliente. Ahora me ocupo del on-board monitoring y las leyes de gestión de energía de un proyecto híbrido AWD.",
    "Lo que más me gusta es ajustar el reparto entre el motor de combustión y las máquinas eléctricas, gestionar el estado de carga de la batería y cerrar el lazo entre lo que predijo la simulación y lo que hace el coche — a menudo en campañas de campo en altitud y clima extremos, donde el powertrain se comporta de forma muy distinta a como lo hizo en banco.",
-   "Esta disciplina viaja bien. Calibrar, verificar y validar sistemas complejos es el mismo oficio en automoción, motorsport, aeroespacial o defensa: que se comporten como deben, bajo carga y con evidencia — y ese es el trabajo que quiero seguir haciendo, allí donde sea exigente."
-  ],
-  "facts": [
-   [
-    "Base",
-    "Valladolid, ES"
-   ],
-   [
-    "Puesto",
-    "Ing. calibración"
-   ],
-   [
-    "Foco",
-    "Híbrido y MCI"
-   ],
-   [
-    "Viajes",
-    "Disponibilidad total"
-   ]
+   "Esta disciplina viaja bien. Calibrar, verificar y validar sistemas complejos es el mismo oficio en automoción, motorsport, aeroespacial o defensa: que se comporten como deben, bajo carga y con evidencia — y ese es el trabajo que quiero seguir haciendo, allí donde sea exigente.",
+   ""
   ],
   "abCt": "Hablemos",
   "pfTitle": "Proyectos",
@@ -642,7 +610,7 @@ const C=/*C_START*/{
  },
  "fr": {
   "nav": [
-   "CV",
+   "Curriculum",
    "À propos",
    "Portfolio"
   ],
@@ -675,7 +643,8 @@ const C=/*C_START*/{
     "org": "ONG Etta Projects · Bolivie",
     "dates": "Juil – Août 2024",
     "b": [
-     "Bourse P.A.C.I.D. — appui d'ingénierie à des projets de développement dans un environnement international à ressources limitées."
+     "Bourse P.A.C.I.D. — appui d'ingénierie à des projets de développement dans un environnement international à ressources limitées.",
+     "Conception, développement et optimisation de systèmes hydroponiques et aquaponiques à partir de matériaux courants, pour l'autosuffisance de communautés isolées."
     ]
    }
   ],
@@ -703,6 +672,10 @@ const C=/*C_START*/{
      "AVL Concerto",
      "AVL Creta",
      "DDT2000",
+     "MoTeC i2/M1",
+     "Bosch Motorsport",
+     "Vector CANape",
+     "Vector CANalyzer",
      "MATLAB / Simulink",
      "Python",
      "TensorFlow / Keras",
@@ -762,25 +735,8 @@ const C=/*C_START*/{
   "about": [
    "Chez <strong>AVL</strong>, je travaille sur tout le cycle de calibration et validation ECM/HEVC des véhicules hybrides, de la première proposition jusqu'à la validation client. Je m'occupe actuellement du monitoring embarqué et des lois de gestion d'énergie d'un projet hybride AWD.",
    "Ce qui me passionne, c'est régler la répartition entre le moteur thermique et les machines électriques, gérer l'état de charge de la batterie et boucler l'écart entre la simulation et le comportement réel — souvent lors de campagnes terrain en altitude et climats extrêmes, où le groupe motopropulseur ne se comporte plus comme au banc.",
-   "Cette discipline voyage bien. Calibrer, vérifier et valider des systèmes complexes est le même métier dans l'automobile, le sport auto, l'aérospatial ou la défense : garantir le comportement attendu, en charge, avec des preuves — et c'est ce travail que je veux continuer, partout où il est exigeant."
-  ],
-  "facts": [
-   [
-    "Base",
-    "Valladolid, ES"
-   ],
-   [
-    "Poste",
-    "Ing. calibration"
-   ],
-   [
-    "Focus",
-    "Hybride & thermique"
-   ],
-   [
-    "Déplacements",
-    "Disponible partout"
-   ]
+   "Cette discipline voyage bien. Calibrer, vérifier et valider des systèmes complexes est le même métier dans l'automobile, le sport auto, l'aérospatial ou la défense : garantir le comportement attendu, en charge, avec des preuves — et c'est ce travail que je veux continuer, partout où il est exigeant.",
+   ""
   ],
   "abCt": "Discutons",
   "pfTitle": "Projets",
@@ -803,7 +759,7 @@ const C=/*C_START*/{
  },
  "it": {
   "nav": [
-   "CV",
+   "Curriculum",
    "Chi sono",
    "Portfolio"
   ],
@@ -836,7 +792,8 @@ const C=/*C_START*/{
     "org": "ONG Etta Projects · Bolivia",
     "dates": "Lug – Ago 2024",
     "b": [
-     "Borsa P.A.C.I.D. — supporto ingegneristico a progetti di sviluppo in un ambiente internazionale con risorse limitate."
+     "Borsa P.A.C.I.D. — supporto ingegneristico a progetti di sviluppo in un ambiente internazionale con risorse limitate.",
+     "Ideazione, sviluppo e ottimizzazione di sistemi idroponici e acquaponici con materiali comuni, per l'autosufficienza di comunità isolate."
     ]
    }
   ],
@@ -864,6 +821,10 @@ const C=/*C_START*/{
      "AVL Concerto",
      "AVL Creta",
      "DDT2000",
+     "MoTeC i2/M1",
+     "Bosch Motorsport",
+     "Vector CANape",
+     "Vector CANalyzer",
      "MATLAB / Simulink",
      "Python",
      "TensorFlow / Keras",
@@ -923,25 +884,8 @@ const C=/*C_START*/{
   "about": [
    "In <strong>AVL</strong> lavoro sull'intero ciclo di calibrazione e validazione ECM/HEVC dei veicoli ibridi, dalla prima proposta fino all'approvazione del cliente. Attualmente mi occupo del monitoraggio a bordo e delle leggi di gestione dell'energia di un progetto ibrido AWD.",
    "Ciò che mi appassiona è regolare la ripartizione tra motore termico e macchine elettriche, gestire lo stato di carica della batteria e chiudere l'anello tra simulazione e comportamento reale — spesso in campagne sul campo in altitudine e climi estremi, dove il powertrain si comporta in modo molto diverso rispetto al banco.",
-   "Questa disciplina viaggia bene. Calibrare, verificare e validare sistemi complessi è lo stesso mestiere nell'automotive, nel motorsport, nell'aerospazio o nella difesa: farli comportare come previsto, sotto carico, con evidenze — ed è il lavoro che voglio continuare a fare, ovunque sia esigente."
-  ],
-  "facts": [
-   [
-    "Base",
-    "Valladolid, ES"
-   ],
-   [
-    "Ruolo",
-    "Ing. calibrazione"
-   ],
-   [
-    "Focus",
-    "Ibrido & termico"
-   ],
-   [
-    "Trasferte",
-    "Piena disponibilità"
-   ]
+   "Questa disciplina viaggia bene. Calibrare, verificare e validare sistemi complessi è lo stesso mestiere nell'automotive, nel motorsport, nell'aerospazio o nella difesa: farli comportare come previsto, sotto carico, con evidenze — ed è il lavoro che voglio continuare a fare, ovunque sia esigente.",
+   ""
   ],
   "abCt": "Parliamone",
   "pfTitle": "Progetti",
@@ -964,7 +908,7 @@ const C=/*C_START*/{
  },
  "de": {
   "nav": [
-   "CV",
+   "Lebenslauf",
    "Über mich",
    "Portfolio"
   ],
@@ -997,7 +941,8 @@ const C=/*C_START*/{
     "org": "NGO Etta Projects · Bolivien",
     "dates": "Jul – Aug 2024",
     "b": [
-     "P.A.C.I.D.-Stipendium — ingenieurtechnische Unterstützung von Entwicklungsprojekten in einem ressourcenarmen, internationalen Umfeld."
+     "P.A.C.I.D.-Stipendium — ingenieurtechnische Unterstützung von Entwicklungsprojekten in einem ressourcenarmen, internationalen Umfeld.",
+     "Konzeption, Entwicklung und Optimierung von Hydroponik- und Aquaponik-Systemen aus gängigen Materialien zur Selbstversorgung isolierter Gemeinden."
     ]
    }
   ],
@@ -1025,6 +970,10 @@ const C=/*C_START*/{
      "AVL Concerto",
      "AVL Creta",
      "DDT2000",
+     "MoTeC i2/M1",
+     "Bosch Motorsport",
+     "Vector CANape",
+     "Vector CANalyzer",
      "MATLAB / Simulink",
      "Python",
      "TensorFlow / Keras",
@@ -1084,25 +1033,8 @@ const C=/*C_START*/{
   "about": [
    "Bei <strong>AVL</strong> arbeite ich am gesamten ECM/HEVC-Applikations- und Validierungszyklus von Hybridfahrzeugen, von der ersten Vorgabe bis zur Kundenfreigabe. Aktuell verantworte ich On-Board-Monitoring und Energiemanagement-Strategien eines Hybrid-AWD-Projekts.",
    "Am meisten reizt mich die Abstimmung der Aufteilung zwischen Verbrennungsmotor und E-Maschinen, die Steuerung des Batterieladezustands und das Schließen der Lücke zwischen Simulation und realem Verhalten — oft in Feldkampagnen unter extremen Höhen- und Klimabedingungen, wo sich der Antrieb ganz anders verhält als am Prüfstand.",
-   "Diese Disziplin ist übertragbar. Applikation, Verifikation und Validierung komplexer Systeme sind dasselbe Handwerk in Automotive, Motorsport, Luftfahrt oder Verteidigung: erwartetes Verhalten unter Last, mit Nachweis — genau diese Arbeit möchte ich weiterführen, überall dort, wo sie anspruchsvoll ist."
-  ],
-  "facts": [
-   [
-    "Standort",
-    "Valladolid, ES"
-   ],
-   [
-    "Rolle",
-    "Applikationsing."
-   ],
-   [
-    "Fokus",
-    "Hybrid & Verbrenner"
-   ],
-   [
-    "Reisen",
-    "Weltweit verfügbar"
-   ]
+   "Diese Disziplin ist übertragbar. Applikation, Verifikation und Validierung komplexer Systeme sind dasselbe Handwerk in Automotive, Motorsport, Luftfahrt oder Verteidigung: erwartetes Verhalten unter Last, mit Nachweis — genau diese Arbeit möchte ich weiterführen, überall dort, wo sie anspruchsvoll ist.",
+   ""
   ],
   "abCt": "Sprechen wir",
   "pfTitle": "Projekte",
@@ -1157,9 +1089,6 @@ function render(){
   const nb=$("nav").children;
   nb[0].textContent=t.nav[0]; nb[1].textContent=t.nav[1]; nb[2].textContent=t.nav[2];
   nb[0].setAttribute("data-path","nav.0"); nb[1].setAttribute("data-path","nav.1"); nb[2].setAttribute("data-path","nav.2");
-  $("cb-cv").textContent=t.cbCv; $("cb-cv").setAttribute("data-path","cbCv");
-  $("cb-about").textContent=t.cbAbout; $("cb-about").setAttribute("data-path","cbAbout");
-  $("cb-portfolio").textContent=t.cbPortfolio; $("cb-portfolio").setAttribute("data-path","cbPortfolio");
 
   // CV
   $("cv-title").textContent=t.cvTitle; $("cv-title").setAttribute("data-path","cvTitle");
@@ -1175,7 +1104,9 @@ function render(){
        </div>
      </div>
      ${it.intro!==undefined?`<p class="xp-intro" data-path="xp.${i}.intro">${it.intro}</p>`:""}
-     <ul>${it.b.map((x,j)=>`<li data-path="xp.${i}.b.${j}">${x}</li>`).join("")}</ul></div>`).join("");
+     <ul>${it.b.map((x,j)=>`<li data-path="xp.${i}.b.${j}">${x}</li>`).join("")}</ul>
+     ${XPPHOTOS[i]?`<div class="xp-photos">${XPPHOTOS[i].map(p=>`<img src="${p.src}" style="object-position:${p.pos}" alt="" loading="lazy">`).join("")}</div>`:""}
+     </div>`).join("");
   $("cv-skills").innerHTML=t.skills.map(([l,its],i)=>`<div class="srow">
      <div class="slabel" data-path="skills.${i}.0">${l}</div><div class="tags">${its.map((v,j)=>`<span class="tag" data-path="skills.${i}.1.${j}">${v}</span>`).join("")}</div></div>`).join("");
   $("cv-edu").innerHTML=t.edu.map(([tt,o,d,n],i)=>`<div class="edu-item">
@@ -1188,7 +1119,6 @@ function render(){
   $("ab-title").textContent=t.abTitle; $("ab-title").setAttribute("data-path","abTitle");
   $("ab-lead").textContent=t.abLead; $("ab-lead").setAttribute("data-path","abLead");
   $("ab-body").innerHTML=t.about.map((p,i)=>`<p data-path="about.${i}">${p}</p>`).join("");
-  $("ab-facts").innerHTML=t.facts.map(([k,v],i)=>`<div class="fact"><div class="k" data-path="facts.${i}.0">${k}</div><div class="v${i===3?' r':''}" data-path="facts.${i}.1">${v}</div></div>`).join("");
   $("ab-ct").textContent=t.abCt; $("ab-ct").setAttribute("data-path","abCt");
   renderPhoto();
 
